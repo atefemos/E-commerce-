@@ -75,7 +75,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h3">
-          ورود
+          ورود به پنل مدیریت کالا
         </Typography>
         <form className={classes.form} noValidate>
           <TextField

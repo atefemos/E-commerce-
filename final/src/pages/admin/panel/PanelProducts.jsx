@@ -1,7 +1,7 @@
 import React from "react";
 
-const Panel = () => {
+const PanelProducts = () => {
   return <div>Panellllll</div>;
 };
 
-export default Panel;
+export default PanelProducts;

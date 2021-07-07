@@ -8,7 +8,9 @@ import Cards from "./pages/customer/Cards";
 import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
-import Panel from "./pages/admin/Panel";
+import PanelProducts from "./pages/admin/panel/PanelProducts";
+import PanelSupply from "./pages/admin/panel/PanelSupply";
+import PanelOrders from "./pages/admin/panel/PanelOrders";
 
 function App() {
   return (
@@ -21,7 +23,13 @@ function App() {
               <Route path="/cards" exact component={Cards} />
               <Route path="/profile" exact component={Profile} />
               <Route path="/login" exact component={LogIn} />
-              <Route path="/login/panel" exact component={Panel} />
+              <Route
+                path="/login/panelproducts"
+                exact
+                component={PanelProducts}
+              />
+              <Route path="/login/panelsupply" exact component={PanelSupply} />
+              <Route path="/login/panelOrders" exact component={PanelOrders} />
               <Route path="*" exact component={NotFound} />
             </Switch>
           </Router>
