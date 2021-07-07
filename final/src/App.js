@@ -1,8 +1,7 @@
 import React from "react";
-import "./App.scss";
-import { create } from "jss";
-import rtl from "jss-rtl";
-import { StylesProvider, jssPreset } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { jss, theme } from "./theme/customTheme";
+import { StylesProvider } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductsList from "./pages/customer/ProductsList";
 import Cards from "./pages/customer/Cards";
@@ -10,23 +9,10 @@ import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
 import Panel from "./pages/admin/Panel";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
-
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
-const theme = createMuiTheme({
-  direction: "rtl",
-  typography: {
-    fontFamily: [
-    "Vazir"
-    ],
- }
-});
-
 
 function App() {
   return (
-    <React.Fragment className="App">
+    <React.Fragment>
       <StylesProvider jss={jss}>
         <ThemeProvider theme={theme}>
           <Router>
