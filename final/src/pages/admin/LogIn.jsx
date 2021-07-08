@@ -1,7 +1,6 @@
 import React from "react";
-import * as style from "../../assets/styles.scss";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+import Btn from "../../components/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
@@ -45,24 +44,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     border: "1px solid rgba(0,0,0,0.0)",
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    boxShadow: " 5px 5px 10px #b6a9a9, -5px -5px 10px #ffffff",
-  },
+
   field: {
     borderRadius: "15px",
   },
 }));
-
-theme.typography.h3 = {
-  fontSize: "1.1rem",
-  "@media (min-width:600px)": {
-    fontSize: "1.3rem",
-  },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "2rem",
-  },
-};
 
 export default function SignIn() {
   const classes = useStyles();
@@ -100,16 +86,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            className={classes.submit}
-            color="primary"
-          >
-            ورود
-          </Button>
+          <Btn text={"ورود"} color="primary" />
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

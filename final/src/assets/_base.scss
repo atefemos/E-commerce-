@@ -1,0 +1,12 @@
+@import "variables";
+
+.link {
+  color: $lightCream;
+  text-decoration: none;
+  font-size: 1.2rem;
+  z-index: 500;
+  &:hover {
+    color: $cream;
+    transform: scale(0.2);
+  }
+}
