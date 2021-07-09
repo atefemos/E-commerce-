@@ -1,7 +1,6 @@
 import { createMuiTheme, jssPreset } from "@material-ui/core/styles";
 import { create } from "jss";
 import rtl from "jss-rtl";
-import "../index.css";
 
 export const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 export const theme = createMuiTheme({
@@ -12,10 +11,13 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: "#192d50",
+      light: "#054288",
+      main: "#052357",
+      dark: "#030b15",
     },
     secondary: {
-      main: "#ffcc80",
+      main: "#dfceba",
+      dark: "#c59f89",
     },
     paper: {
       main: "#800040",
@@ -31,11 +33,11 @@ export const theme = createMuiTheme({
 
 theme.typography.h3 = {
   fontFamily: ["IranSanse"],
-  fontSize: "1.1rem",
-  "@media (min-width:600px)": {
-    fontSize: "1.3rem",
+  fontSize: "0.8rem",
+  [theme.breakpoints.up("sm")]: {
+    fontSize: "1rem",
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: "2rem",
+    fontSize: "1.5rem",
   },
 };

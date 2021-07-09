@@ -1,5 +1,13 @@
 @import "variables";
-
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.root {
+  background-color: $lightCream;
+}
 .link {
   color: $lightCream;
   text-decoration: none;

@@ -1,12 +1,12 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
-import Btn from "../../components/Button";
+import Btn from "../../components/Btn";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(3),
     padding: theme.spacing(6),
     boxShadow: " 5px 5px 10px #b6a9a9, -5px -5px 10px #ffffff",
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const LogIn = () => {
   const classes = useStyles();
 
   return (
@@ -58,12 +58,12 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <AccountCircleIcon fontSize={"large"} />
         </Avatar>
         <Typography component="h1" variant="h3">
           ورود به پنل مدیریت کالا
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -106,4 +106,6 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+export default LogIn;

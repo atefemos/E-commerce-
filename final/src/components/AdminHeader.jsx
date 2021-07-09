@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "../theme/customTheme";
@@ -6,8 +6,16 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Box } from "@material-ui/core";
 import "../assets/styles.scss";
-import Button from "../components/Button";
+import Btn from "./Btn";
 import { ButtonGroup } from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import List from "@material-ui/core/List";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyle = makeStyles({
   root: {
@@ -15,34 +23,72 @@ const useStyle = makeStyles({
     padding: theme.spacing(1, 3),
     position: "fixed",
   },
+  display: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "inline-flex",
+    },
+  },
+  notDisplay: {
+    display: "inline-flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
 });
+
 const AdminHeader = () => {
   const classes = useStyle();
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (e) => {
+    e.stopPropagation();
+    setOpen(!open);
+  };
+
   return (
-    <AppBar className={classes.root}>
+    <AppBar className={classes.root} onClick={() => setOpen(false)}>
       <Box display="flex" alignItems="center">
         <Box flexGrow={1}>
           <Typography component="h1" variant="h3" color={"secondary"}>
             پنل مدیریت فروشگاه
           </Typography>
         </Box>
-        <Box flexGrow={1}>
+        <Box flexGrow={0.5}>
           <ButtonGroup
-            variant="text"
-            color="paper"
-            aria-label="contained primary button group"
+            size="small"
+            color="primary"
+            aria-label="small outlined primary button group"
+            className={classes.display}
           >
-            <Button text={"کالاها"} />
-            <Button text={"موجوی و قیمت ها"} />
-            <Button text={"سفارش"} />
+            <Btn text={"کالاها"} />
+            <Btn text={"موجوی و قیمت ها"} />
+            <Btn text={"سفارش"} />
           </ButtonGroup>
         </Box>
-        <Box>
+        <Box className={classes.notDisplay}>
+          <Btn text={"منو"} onClick={toggleDrawer} />
+        </Box>
+        <Box m={0.5}>
           <Link to={"/"} className="link">
-            <Button text={"بازگشت به صفحه اصلی"} color={"paper"} />
+            <Btn text={"پالیز"} color={"paper"} />
           </Link>
         </Box>
       </Box>
+      {open && (
+        <List>
+          {["کالاها", "موجودی و قیمت ها", "سفارش ها"].map((text, index) => (
+            <ListItem button key={text} className={classes.notDisplay}>
+              <ListItemIcon>
+                {index === 0 && <ShoppingBasketIcon color={"secondary"} />}
+                {index === 1 && <AddShoppingCartIcon color={"secondary"} />}
+                {index === 2 && <ShoppingCartIcon color={"secondary"} />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      )}
     </AppBar>
   );
 };

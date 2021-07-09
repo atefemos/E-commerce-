@@ -1,10 +1,17 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "../theme/customTheme";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
+    height: "25px",
+    [theme.breakpoints.up("sm")]: {
+      height: "30px",
+    },
+    [theme.breakpoints.up("md")]: {
+      height: "50px",
+    },
+
     margin: theme.spacing(3, 0, 2),
     borderRadius: 5,
     boxShadow:
@@ -20,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Btn = ({ text, color }) => {
+const Btn = ({ text, color, onClick }) => {
   const classes = useStyles();
   return (
     <Button
@@ -29,6 +36,7 @@ const Btn = ({ text, color }) => {
       variant="contained"
       className={classes.submit}
       color={color}
+      onClick={onClick}
     >
       {text}
     </Button>
