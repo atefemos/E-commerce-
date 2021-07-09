@@ -11,12 +11,14 @@ import LogIn from "./pages/admin/LogIn";
 import PanelProducts from "./pages/admin/panel/PanelProducts";
 import PanelSupply from "./pages/admin/panel/PanelSupply";
 import PanelOrders from "./pages/admin/panel/PanelOrders";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <React.Fragment>
       <StylesProvider jss={jss}>
         <ThemeProvider theme={theme}>
+          <ToastContainer />
           <Router>
             <Switch>
               <Route path="/" exact component={ProductsList} />
