@@ -14,8 +14,9 @@ import { getAllData } from "../../../api/productApi";
 import WithLoading from "../../../HOC/WithLoading";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import TablePagination from "@material-ui/core/TablePagination";
 
-const PanelProducts = ({ products }) => {
+const PanelProducts = ({ products, ...props }) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -35,7 +36,6 @@ const PanelProducts = ({ products }) => {
   }))(TableRow);
 
   const rows = products.products;
-  console.log(products.products);
 
   const useStyles = makeStyles({
     table: {
@@ -49,6 +49,19 @@ const PanelProducts = ({ products }) => {
     },
   });
   const classes = useStyles();
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (e, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (e) => {
+    console.log(e);
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
 
   return (
     <Container className="root">
@@ -67,27 +80,38 @@ const PanelProducts = ({ products }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.id}
-                  </StyledTableCell>
-                  <StyledTableCell>{row.name}</StyledTableCell>
-                  <StyledTableCell>{row.category}</StyledTableCell>
-                  <StyledTableCell>
-                    <img src={row.url} className={classes.img} />
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <DeleteIcon color="error" />
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <EditIcon color="primary" />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.id}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.name}</StyledTableCell>
+                    <StyledTableCell>{row.category}</StyledTableCell>
+                    <StyledTableCell>
+                      <img src={row.url} className={classes.img} />
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <DeleteIcon color="error" />
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <EditIcon color="primary" />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </Container>
   );
