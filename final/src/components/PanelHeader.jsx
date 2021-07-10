@@ -1,7 +1,7 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { theme } from "../theme/customTheme";
-import Btn from "./Btn";
+import Modals from "../components/Modal";
 
 const PanelHeader = ({ txt, btnTxt }) => {
   const useStyle = makeStyles({
@@ -21,7 +21,7 @@ const PanelHeader = ({ txt, btnTxt }) => {
         <Typography variant="h3">{txt}</Typography>
       </Box>
       <Box>
-        <Btn text={btnTxt} />
+        <Modals btnTxt={btnTxt} />
       </Box>
     </Box>
   );

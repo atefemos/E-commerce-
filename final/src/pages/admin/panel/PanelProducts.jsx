@@ -17,7 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
 import PanelHeader from "../../../components/PanelHeader";
 
-const PanelProducts = ({ products, ...props }) => {
+const PanelProducts = ({ products, btnTxt, ...props }) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -45,7 +45,7 @@ const PanelProducts = ({ products, ...props }) => {
     },
     root: {
       marginTop: theme.spacing(10),
-      padding: theme.spacing(2),
+      padding: theme.spacing(4),
       backgroundColor: theme.palette.secondary.light,
     },
     img: {
