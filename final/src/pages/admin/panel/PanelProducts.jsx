@@ -15,6 +15,7 @@ import WithLoading from "../../../HOC/WithLoading";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
+import PanelHeader from "../../../components/PanelHeader";
 
 const PanelProducts = ({ products, ...props }) => {
   const StyledTableCell = withStyles((theme) => ({
@@ -32,6 +33,7 @@ const PanelProducts = ({ products, ...props }) => {
       "&:nth-of-type(odd)": {
         backgroundColor: theme.palette.action.hover,
       },
+      backgroundColor: theme.palette.secondary.main,
     },
   }))(TableRow);
 
@@ -42,7 +44,9 @@ const PanelProducts = ({ products, ...props }) => {
       minWidth: 700,
     },
     root: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(10),
+      padding: theme.spacing(2),
+      backgroundColor: theme.palette.secondary.light,
     },
     img: {
       height: 50,
@@ -64,9 +68,10 @@ const PanelProducts = ({ products, ...props }) => {
   };
 
   return (
-    <Container className="root">
+    <Container className={classes.root}>
+      <PanelHeader txt={"مدیریت کالا ها"} btnTxt={"افزودن کالای جدید"} />
       <AdminHeader />
-      <div className={classes.root}>
+      <div>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
