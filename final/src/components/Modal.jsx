@@ -2,15 +2,22 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Btn from "./Btn";
+import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
+import { theme } from "../theme/customTheme";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
     width: 400,
     backgroundColor: theme.palette.secondary.light,
-    border: "2px solid #000",
+    border: `2px solid ${theme.palette.secondary.main}`,
+    borderRadius: 15,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  btn: {
+    float: "right",
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -19,10 +26,12 @@ function getModalStyle() {
     top: `30%`,
     left: `50%`,
     transform: `translate(-50%, -30%)`,
+    boxShadow:
+      "2px 2px 14px 0 rgba(0, 0, 0, 0.4),-2px -2px 14px 0 rgba(255, 255, 255, 0.5)",
   };
 }
 
-const Modals = ({ btnTxt }) => {
+const Modals = ({ btnTxt, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -37,11 +46,12 @@ const Modals = ({ btnTxt }) => {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-      {/* <SimpleModal /> */}
+      <CancelTwoToneIcon
+        color={"error"}
+        onClick={handleClose}
+        className={classes.btn}
+      />
+      {props.children}
     </div>
   );
 

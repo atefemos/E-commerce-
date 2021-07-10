@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import Container from "@material-ui/core/Container";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -16,8 +16,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
 import PanelHeader from "../../../components/PanelHeader";
+import { MenuItem, TextField } from "@material-ui/core";
 
-const PanelProducts = ({ products, btnTxt, ...props }) => {
+const PanelProducts = ({ products, btnTxt, children, ...props }) => {
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -44,12 +45,15 @@ const PanelProducts = ({ products, btnTxt, ...props }) => {
       minWidth: 700,
     },
     root: {
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(9),
       padding: theme.spacing(4),
       backgroundColor: theme.palette.secondary.light,
     },
     img: {
       height: 50,
+    },
+    input: {
+      marginTop: theme.spacing(3),
     },
   });
   const classes = useStyles();
@@ -67,9 +71,42 @@ const PanelProducts = ({ products, btnTxt, ...props }) => {
     setPage(0);
   };
 
+  const [Category, setCategory] = useState([]);
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
+  const categories = ["لباس", "کیف", "کفش", "اکسسوری"];
+
   return (
     <Container className={classes.root}>
-      <PanelHeader txt={"مدیریت کالا ها"} btnTxt={"افزودن کالای جدید"} />
+      <PanelHeader txt={"مدیریت کالا ها"} btnTxt={"افزودن کالای جدید"}>
+        <p>افزودن / ویرایش کالا</p>
+        <TextField
+          id="outlined-basic"
+          label="نام کالا"
+          variant="outlined"
+          fullWidth
+          required
+          focused
+          className={classes.input}
+        />
+        <TextField
+          id="outlined-select-currency"
+          select
+          fullWidth
+          label="نوع کالا"
+          value={Category}
+          onChange={handleChange}
+          variant="outlined"
+          className={classes.input}
+        >
+          {categories.map((option, index) => (
+            <MenuItem key={index} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+      </PanelHeader>
       <AdminHeader />
       <div>
         <TableContainer component={Paper}>
