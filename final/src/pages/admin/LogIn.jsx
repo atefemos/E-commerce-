@@ -14,6 +14,7 @@ import { theme } from "../../theme/customTheme";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../api/login";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LogIn = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,7 +75,7 @@ const LogIn = () => {
       login(email, password)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
-          window.location.reload();
+          history.push("/panelproducts");
         })
         .catch((err) => console.log(err));
     } else {

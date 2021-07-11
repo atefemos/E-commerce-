@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const login = async (email, password) => {
   let res = await axios({
@@ -10,5 +11,10 @@ export const login = async (email, password) => {
       password,
     }),
   });
-  return res;
+  if (res) {
+    toast.success("با موفقیت وارد شدید.");
+    return res;
+  } else {
+    toast.error("ایمیل یا رمز عبور اشتباه است");
+  }
 };
