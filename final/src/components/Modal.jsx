@@ -27,7 +27,7 @@ function getModalStyle() {
     left: `50%`,
     transform: `translate(-50%, -30%)`,
     boxShadow:
-      "2px 2px 14px 0 rgba(0, 0, 0, 0.4),-2px -2px 14px 0 rgba(255, 255, 255, 0.5)",
+      "2px 2px 10px 0 rgba(0, 0, 0, 0.4),-2px -2px 10px 0 rgba(255, 255, 255, 0.5)",
   };
 }
 

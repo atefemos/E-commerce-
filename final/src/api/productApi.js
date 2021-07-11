@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getAllData = async () => {
@@ -7,8 +7,8 @@ export const getAllData = async () => {
     method: "get",
     url: "http://localhost:5000/products",
     header: { "content-type": "application/json" },
-  }).catch((err) => toast.error("An error happened!"));
-  toast.success("Successfully Loaded!");
+  }).catch((err) => toast.error("خطایی رخ داده!"));
+  toast.success("داده ها بارگذاری شد");
   return res;
 };
 
@@ -17,7 +17,7 @@ export const getADataById = async (id) => {
     method: "get",
     url: `http://localhost:5000/products/${id}`,
     header: { "content-type": "application/json" },
-  }).catch((err) => toast.error("An error happened!"));
-  toast.success("Successfully Loaded!");
+  }).catch((err) => toast.error("خطایی رخ داده است!"));
+  toast.success("داده ها بارگذاری شد");
   return res;
 };

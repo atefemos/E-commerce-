@@ -8,13 +8,20 @@ export const setProducts = (products) => {
   };
 };
 
+export const selectedProduct = (product) => {
+  return {
+    type: ActionTypes.SELECTED_PRODUCT,
+    paload: product,
+  };
+};
+
 export const getProducts = () => async (dispatch, getState) => {
   let res = await getAllData();
   dispatch(setProducts(res.data));
 };
 
-// export const getAProduct = (id) => async (dispatch) => {
-//   let res = await getADataById(id);
-//   console.log(res.data);
-//   dispatch(selectedProduct(res.data));
-// };
+export const getAProduct = (id) => async (dispatch) => {
+  let res = await getADataById(id);
+  console.log(res.data);
+  dispatch(selectedProduct(res.data));
+};

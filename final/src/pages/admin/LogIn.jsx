@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Btn from "../../components/Btn";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { theme } from "../../theme/customTheme";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { login } from "../../api/login";
 
 function Copyright() {
   return (
@@ -53,6 +56,31 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = () => {
   const classes = useStyles();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleChange = (e) => {
+    if (e.target.name === "email") {
+      setEmail(e.target.value);
+    } else {
+      setPassword(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if ((email, password)) {
+      login(email, password)
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast.error("لطفا ایمیل و پسورد خود را وارد کنید!");
+    }
+  };
+
   return (
     <Container maxWidth="xs">
       <CssBaseline />
@@ -63,28 +91,28 @@ const LogIn = () => {
         <Typography component="h1" variant="h3">
           ورود به پنل مدیریت کالا
         </Typography>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             id="email"
             label="ایمیل یا نام کاربری"
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             name="password"
             label="رمز عبور"
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleChange}
           />
           <Btn text={"ورود"} color="primary" />
           <Grid container>

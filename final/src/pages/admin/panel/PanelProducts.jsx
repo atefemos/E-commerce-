@@ -17,8 +17,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
 import PanelHeader from "../../../components/PanelHeader";
 import { MenuItem, TextField } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const PanelProducts = ({ products, btnTxt, children, ...props }) => {
+  const { productId } = useParams();
+  const dispatch = useDispatch;
+
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -135,7 +140,10 @@ const PanelProducts = ({ products, btnTxt, children, ...props }) => {
                       <img src={row.url} className={classes.img} />
                     </StyledTableCell>
                     <StyledTableCell>
-                      <DeleteIcon color="error" />
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => console.log("delet")}
+                      />
                     </StyledTableCell>
                     <StyledTableCell>
                       <EditIcon color="primary" />

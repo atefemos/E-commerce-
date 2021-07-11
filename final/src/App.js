@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { ThemeProvider } from "@material-ui/styles";
 import { jss, theme } from "./theme/customTheme";
 import { StylesProvider } from "@material-ui/core/styles";
@@ -8,33 +8,32 @@ import Cards from "./pages/customer/Cards";
 import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
-import PanelProducts from "./pages/admin/panel/PanelProducts";
-import PanelSupply from "./pages/admin/panel/PanelSupply";
-import PanelOrders from "./pages/admin/panel/PanelOrders";
 import { ToastContainer } from "react-toastify";
+
+const PanelProducts = lazy(() => import("./pages/admin/panel/PanelProducts"));
+const PanelSupply = lazy(() => import("./pages/admin/panel/PanelSupply"));
+const PanelOrders = lazy(() => import("./pages/admin/panel/PanelOrders"));
 
 function App() {
   return (
     <React.Fragment>
       <StylesProvider jss={jss}>
         <ThemeProvider theme={theme}>
-          <ToastContainer />
-          <Router>
-            <Switch>
-              <Route path="/" exact component={ProductsList} />
-              <Route path="/cards" exact component={Cards} />
-              <Route path="/profile" exact component={Profile} />
-              <Route path="/login" exact component={LogIn} />
-              <Route
-                path="/login/panelproducts"
-                exact
-                component={PanelProducts}
-              />
-              <Route path="/login/panelsupply" exact component={PanelSupply} />
-              <Route path="/login/panelOrders" exact component={PanelOrders} />
-              <Route path="*" exact component={NotFound} />
-            </Switch>
-          </Router>
+          <Suspense fallback={<div>Loading...</div>}>
+            <ToastContainer />
+            <Router>
+              <Switch>
+                <Route path="/" exact component={ProductsList} />
+                <Route path="/cards" exact component={Cards} />
+                <Route path="/profile" exact component={Profile} />
+                <Route path="/login" exact component={LogIn} />
+                <Route path="/panelproducts" exact component={PanelProducts} />
+                <Route path="/panelsupply" exact component={PanelSupply} />
+                <Route path="/panelOrders" exact component={PanelOrders} />
+                <Route path="*" exact component={NotFound} />
+              </Switch>
+            </Router>
+          </Suspense>
         </ThemeProvider>
       </StylesProvider>
     </React.Fragment>
