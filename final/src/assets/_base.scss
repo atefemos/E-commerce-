@@ -18,3 +18,23 @@ html {
     transform: scale(0.2);
   }
 }
+
+.fullVH {
+  width: 100vw;
+  height: 100vh;
+}
+
+.box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
+  height: 200px;
+  width: 500px;
+  background-color: $blue;
+  border-radius: 15px;
+  text-align: center;
+  color: $white;
+  box-shadow: 5px 5px 10px #06186b, -5px -5px 10px #b5b9fa;
+  padding: 20px;
+}
