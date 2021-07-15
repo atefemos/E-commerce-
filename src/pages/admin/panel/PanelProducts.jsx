@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import Container from "@material-ui/core/Container";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -10,19 +10,23 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { theme } from "../../../theme/customTheme";
-import { getAllData } from "../../../api/productApi";
-import WithLoading from "../../../HOC/WithLoading";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import TablePagination from "@material-ui/core/TablePagination";
 import PanelHeader from "../../../components/PanelHeader";
 import { MenuItem, TextField } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts, deleteAProduct } from "../../../store/actions";
+import { getAllData } from "../../../api/productApi";
 
-const PanelProducts = ({ products, btnTxt, children, ...props }) => {
+const PanelProducts = ({ btnTxt, children, ...props }) => {
   const { productId } = useParams();
-  const dispatch = useDispatch;
+  const products = useSelector((state) => state.allProducts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -62,19 +66,6 @@ const PanelProducts = ({ products, btnTxt, children, ...props }) => {
     },
   });
   const classes = useStyles();
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (e, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (e) => {
-    console.log(e);
-    setRowsPerPage(+e.target.value);
-    setPage(0);
-  };
 
   const [Category, setCategory] = useState([]);
   const handleChange = (event) => {
@@ -127,44 +118,37 @@ const PanelProducts = ({ products, btnTxt, children, ...props }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.id}
-                    </StyledTableCell>
-                    <StyledTableCell>{row.name}</StyledTableCell>
-                    <StyledTableCell>{row.category}</StyledTableCell>
-                    <StyledTableCell>
-                      <img src={row.url} className={classes.img} />
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <DeleteIcon
-                        color="error"
-                        onClick={() => console.log("delet")}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <EditIcon color="primary" />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
+              {rows.map((row, index) => (
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.id}
+                  </StyledTableCell>
+                  <StyledTableCell>{row.name}</StyledTableCell>
+                  <StyledTableCell>{row.category}</StyledTableCell>
+                  <StyledTableCell>
+                    <img
+                      src={row.url}
+                      className={classes.img}
+                      alt="this will load"
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => dispatch(deleteAProduct(row.id))}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <EditIcon color="primary" />
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </div>
     </Container>
   );
 };
 
-export default WithLoading(PanelProducts, getAllData);
+export default PanelProducts;

@@ -4,6 +4,7 @@ import { jss, theme } from "./theme/customTheme";
 import { StylesProvider } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProductsList from "./pages/customer/ProductsList";
+import IsLoading from "./components/IsLoading";
 import Cards from "./pages/customer/Cards";
 import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
@@ -19,7 +20,7 @@ function App() {
     <React.Fragment>
       <StylesProvider jss={jss}>
         <ThemeProvider theme={theme}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<IsLoading />}>
             <ToastContainer />
             <Router>
               <Switch>

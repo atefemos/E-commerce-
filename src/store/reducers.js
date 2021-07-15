@@ -10,6 +10,11 @@ export const productReducer = (state = initialState, { type, payload }) => {
       return { ...state, products: payload };
     case ActionTypes.SELECTED_PRODUCT:
       return { ...state, selectedProduct: payload };
+    case ActionTypes.DELETED_PRODUCT:
+      return {
+        ...state,
+        products: state.products.filter((item) => item.id !== payload),
+      };
 
     default:
       return state;
