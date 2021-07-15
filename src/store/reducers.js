@@ -15,6 +15,11 @@ export const productReducer = (state = initialState, { type, payload }) => {
         ...state,
         products: state.products.filter((item) => item.id !== payload),
       };
+    case ActionTypes.ADDED_PRODUCT:
+      return {
+        ...state,
+        products: [...state.products, payload],
+      };
 
     default:
       return state;

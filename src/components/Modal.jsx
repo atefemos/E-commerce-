@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Btn from "./Btn";
 import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
-import { theme } from "../theme/customTheme";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

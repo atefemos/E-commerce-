@@ -15,7 +15,6 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import List from "@material-ui/core/List";
-import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyle = makeStyles({
   root: {

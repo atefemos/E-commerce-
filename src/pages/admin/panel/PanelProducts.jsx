@@ -16,8 +16,14 @@ import PanelHeader from "../../../components/PanelHeader";
 import { MenuItem, TextField } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, deleteAProduct } from "../../../store/actions";
-import { getAllData } from "../../../api/productApi";
+import {
+  getProducts,
+  deleteAProduct,
+  addAProduct,
+} from "../../../store/actions";
+import Btn from "../../../components/Btn";
+import FiledInput from "@material-ui/core/FilledInput";
+import { handleUploadingImage } from "../../../utils/uploadImage";
 
 const PanelProducts = ({ btnTxt, children, ...props }) => {
   const { productId } = useParams();
@@ -67,41 +73,99 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
   });
   const classes = useStyles();
 
-  const [Category, setCategory] = useState([]);
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
+  const [state, setstate] = useState({});
+  const [image, setImage] = useState("");
   const categories = ["لباس", "کیف", "کفش", "اکسسوری"];
+  const subCats = ["زنانه", "مردانه"];
 
+  const handleChange = (event) => {
+    setstate({ ...state, [event.target.name]: event.target.value });
+  };
+
+  const handleTransformImageToBase64 = (e) => {
+    const file = e.target.files[0];
+    console.log(file.name);
+    handleUploadingImage(file).then((res) => {
+      console.log(res);
+      setImage(res);
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      addAProduct({ ...state, id: rows.length + 1, price: "0", url: image })
+    );
+  };
   return (
     <Container className={classes.root}>
       <PanelHeader txt={"مدیریت کالا ها"} btnTxt={"افزودن کالای جدید"}>
-        <p>افزودن / ویرایش کالا</p>
-        <TextField
-          id="outlined-basic"
-          label="نام کالا"
-          variant="outlined"
-          fullWidth
-          required
-          focused
-          className={classes.input}
-        />
-        <TextField
-          id="outlined-select-currency"
-          select
-          fullWidth
-          label="نوع کالا"
-          value={Category}
-          onChange={handleChange}
-          variant="outlined"
-          className={classes.input}
-        >
-          {categories.map((option, index) => (
-            <MenuItem key={index} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </TextField>
+        <form onSubmit={handleSubmit}>
+          <p>افزودن / ویرایش کالا</p>
+          <TextField
+            id="outlined-basic"
+            label="نام کالا"
+            variant="outlined"
+            fullWidth
+            required
+            focused
+            name="name"
+            className={classes.input}
+            onChange={handleChange}
+          />
+          <TextField
+            id="outlined-select-category"
+            select
+            fullWidth
+            name="category"
+            label="نوع کالا"
+            onChange={handleChange}
+            variant="outlined"
+            className={classes.input}
+          >
+            {categories.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="outlined-select-subCat"
+            select
+            fullWidth
+            name="subCat"
+            label="مورد استفاده"
+            onChange={handleChange}
+            variant="outlined"
+            className={classes.input}
+          >
+            {subCats.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          <FiledInput
+            type="file"
+            fullWidth
+            variant="outlined"
+            color={"primary"}
+            placeholder="slkd"
+            className={classes.input}
+            onChange={handleTransformImageToBase64}
+          />
+          <TextField
+            variant="outlined"
+            multiline
+            fullWidth
+            name="detail"
+            onChange={handleChange}
+            className={classes.input}
+            placeholder="توضیحات"
+          />
+
+          <Btn text={"ذخیره"} color={"primary"} />
+        </form>
       </PanelHeader>
       <AdminHeader />
       <div>

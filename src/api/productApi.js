@@ -8,7 +8,7 @@ export const getAllData = async () => {
     url: "http://localhost:5000/products",
     headers: { "content-type": "application/json" },
   }).catch((err) => toast.error("خطایی رخ داده است!"));
-  res && toast.success("داده ها بارگذاری شد!");
+  res && toast.success("داده ها بارگذاری شد");
   return res;
 };
 
@@ -27,6 +27,17 @@ export const deleteADataById = async (id) => {
     method: "delete",
     url: `http://localhost:5000/products/${id}`,
     headers: { "content-type": "application/json" },
+  }).catch((err) => toast.error("خطایی رخ داده است!"));
+  res && toast.success("داده ها بارگذاری شد");
+  return res;
+};
+
+export const addAData = async (product) => {
+  let res = await axios({
+    method: "post",
+    url: `http://localhost:5000/products/`,
+    headers: { "content-type": "application/json" },
+    data: JSON.stringify(product),
   }).catch((err) => toast.error("خطایی رخ داده است!"));
   res && toast.success("داده ها بارگذاری شد");
   return res;
