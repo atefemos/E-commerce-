@@ -23,7 +23,7 @@ import {
 } from "../../../store/actions";
 import AddEditModal from "../../../components/AddEditModal";
 
-const PanelProducts = ({ btnTxt, children, onOpen, ...props }) => {
+const PanelProducts = ({ btnTxt, children, ...props }) => {
   const { productId } = useParams();
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();

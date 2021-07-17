@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PanelHeader from "../../../components/PanelHeader";
 import AdminHeader from "../../../components/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
+import TablePagination from "@material-ui/core/TablePagination";
 import { editAProduct, getProducts } from "../../../store/actions";
 import Btn from "../../../components/Btn";
 // Icons
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     width: 60,
   },
   tableCell: {
-    width: 130,
+    width: 100,
     height: 40,
     fontSize: 14,
   },
@@ -71,86 +72,107 @@ const PanelSuppply = () => {
     dispatch(getProducts());
   }, []);
 
-  const rows = products.products;
-  // const [rows, setRows] = useState(rowsy);
+  // const rows = products.products;
+  const [rows, setRows] = useState(products.products);
   console.log(rows);
   const [previous, setPrevious] = useState({});
   const classes = useStyles();
 
-  // const onToggleEditMode = (id) => {
-  //   setRows((state) => {
-  //     return rows.map((row) => {
-  //       if (row.id === id) {
-  //         return { ...row, isEditMode: !row.isEditMode };
-  //       }
-  //       return row;
-  //     });
-  //   });
-  // };
+  const onToggleEditMode = (id) => {
+    setRows((state) => {
+      return rows.map((row) => {
+        if (row.id === id) {
+          return { ...row, isEditMode: !row.isEditMode };
+        }
+        return row;
+      });
+    });
+  };
 
-  // const onChange = (e, row) => {
-  //   if (!previous[row.id]) {
-  //     setPrevious((state) => ({ ...state, [row.id]: row }));
-  //   }
-  //   const value = e.target.value;
-  //   const name = e.target.name;
-  //   const { id } = row;
-  //   const newRows = rows.map((row) => {
-  //     if (row.id === id) {
-  //       return { ...row, [name]: value };
-  //     }
-  //     return row;
-  //   });
-  //   setRows(newRows);
-  // };
+  const onChange = (e, row) => {
+    if (!previous[row.id]) {
+      setPrevious((state) => ({ ...state, [row.id]: row }));
+    }
+    const value = e.target.value;
+    const name = e.target.name;
+    const { id } = row;
+    const newRows = rows.map((row) => {
+      if (row.id === id) {
+        return { ...row, [name]: value };
+      }
+      return row;
+    });
+    setRows(newRows);
+  };
 
-  // const onRevert = (id) => {
-  //   const newRows = rows.map((row) => {
-  //     if (row.id === id) {
-  //       return previous[id] ? previous[id] : row;
-  //     }
-  //     return row;
-  //   });
-  //   setRows(newRows);
-  //   setPrevious((state) => {
-  //     delete state[id];
-  //     return state;
-  //   });
-  //   onToggleEditMode(id);
-  // };
+  const onRevert = (id) => {
+    const newRows = rows.map((row) => {
+      if (row.id === id) {
+        return previous[id] ? previous[id] : row;
+      }
+      return row;
+    });
+    setRows(newRows);
+    setPrevious((state) => {
+      delete state[id];
+      return state;
+    });
+    onToggleEditMode(id);
+  };
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <Container className={classes.root}>
       <PanelHeader txt={"مدیریت موجودی و قیمت ها"} btnTxt={"ذخیره"}>
-        <p>آیا از ویرایش محصول مورد نظر اطمینان دارید؟</p>
+        {/* <p>آیا از ویرایش محصول مورد نظر اطمینان دارید؟</p>
         <Btn text={"بله"} onClick={() => dispatch(editAProduct())} />
-        <Btn text={"خیر"} />
+        <Btn text={"خیر"} /> */}
       </PanelHeader>
       <AdminHeader />
       <Table className={classes.table} aria-label="caption table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">ویرایش</TableCell>
+            <TableCell align="left">ردیف</TableCell>
             <TableCell align="left">نام کالا</TableCell>
             <TableCell align="left">قیمت</TableCell>
             <TableCell align="left">موجودی</TableCell>
+            <TableCell align="left">ویرایش</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {(rowsPerPage > 0
+            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rows
+          ).map((row) => (
             <TableRow key={row.id}>
+              <CustomTableCell {...{ row, name: "id" }} />
+
+              <CustomTableCell {...{ row, name: "name" }} />
+              <CustomTableCell {...{ row, name: "price" }} />
+              <CustomTableCell {...{ row, name: "supply" }} />
               <TableCell className={classes.selectTableCell}>
                 {row.isEditMode ? (
                   <>
                     <IconButton
                       aria-label="done"
-                      // onClick={() => onToggleEditMode(row.id)}
+                      onClick={() => onToggleEditMode(row.id)}
                     >
                       <DoneIcon />
                     </IconButton>
                     <IconButton
                       aria-label="revert"
-                      // onClick={() => onRevert(row.id)}
+                      onClick={() => onRevert(row.id)}
                     >
                       <RevertIcon />
                     </IconButton>
@@ -158,19 +180,25 @@ const PanelSuppply = () => {
                 ) : (
                   <IconButton
                     aria-label="delete"
-                    // onClick={() => onToggleEditMode(row.id)}
+                    onClick={() => onToggleEditMode(row.id)}
                   >
                     <EditIcon />
                   </IconButton>
                 )}
               </TableCell>
-              <CustomTableCell {...{ row, name: "name" }} />
-              <CustomTableCell {...{ row, name: "price" }} />
-              <CustomTableCell {...{ row, name: "supply" }} />
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+        component="div"
+        count={rows.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </Container>
   );
 };
