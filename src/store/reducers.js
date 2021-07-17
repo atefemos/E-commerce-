@@ -21,6 +21,12 @@ export const productReducer = (state = initialState, { type, payload }) => {
         products: [...state.products, payload],
       };
 
+    // case ActionTypes.EDITED_PRODUCT:
+    //   return {
+    //     ...state,
+    //     products: state.products.find((item) => item.id === payload),
+    //   };
+
     default:
       return state;
   }

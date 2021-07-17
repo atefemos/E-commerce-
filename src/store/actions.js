@@ -3,6 +3,7 @@ import {
   getAllData,
   deleteADataById,
   addAData,
+  editADataById,
 } from "../api/productApi";
 import { ActionTypes } from "./actionTypes";
 
@@ -34,6 +35,13 @@ export const addedProduct = (product) => {
   };
 };
 
+export const editedProduct = (id) => {
+  return {
+    type: ActionTypes.EDITED_PRODUCT,
+    payload: id,
+  };
+};
+
 // Async Actions
 
 export const getProducts = () => async (dispatch, getState) => {
@@ -56,5 +64,11 @@ export const addAProduct = (product) => async (dispatch, getState) => {
   let res = await addAData(product);
   console.log(res);
   dispatch(addedProduct(res.data));
+  // window.location.reload();
+};
+export const editAProduct = (product) => async (dispatch, getState) => {
+  let res = await editADataById(product);
+  console.log(res);
+  dispatch(editedProduct(res.data));
   // window.location.reload();
 };

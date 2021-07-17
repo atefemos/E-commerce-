@@ -7,7 +7,8 @@ import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
+    maxWidth: 350,
+    minWidth: 250,
     backgroundColor: theme.palette.secondary.light,
     border: `2px solid ${theme.palette.secondary.main}`,
     borderRadius: 15,
@@ -26,11 +27,11 @@ function getModalStyle() {
     left: `50%`,
     transform: `translate(-50%, -30%)`,
     boxShadow:
-      "2px 2px 10px 0 rgba(0, 0, 0, 0.4),-2px -2px 10px 0 rgba(255, 255, 255, 0.5)",
+      "2px 2px 10px 0 rgba(0, 0, 0, 0.9),-2px -2px 10px 0 rgba(255, 255, 255, 0.1)",
   };
 }
 
-const Modals = ({ btnTxt, ...props }) => {
+const BasicModal = ({ btnTxt, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -56,7 +57,7 @@ const Modals = ({ btnTxt, ...props }) => {
 
   return (
     <div>
-      <Btn text={btnTxt} onClick={handleOpen} />
+      <Btn text={btnTxt} onOpen={handleOpen} />
       <Modal
         open={open}
         onClose={handleClose}
@@ -69,4 +70,4 @@ const Modals = ({ btnTxt, ...props }) => {
   );
 };
 
-export default Modals;
+export default BasicModal;

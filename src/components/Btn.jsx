@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Btn = ({ text, color, onClick }) => {
+const Btn = ({ text, color, onClick, href }) => {
   const classes = useStyles();
   return (
     <Button
@@ -36,6 +36,7 @@ const Btn = ({ text, color, onClick }) => {
       variant="contained"
       className={classes.submit}
       color={color}
+      href={href}
       onClick={onClick}
     >
       {text}

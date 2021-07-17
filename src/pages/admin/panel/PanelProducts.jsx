@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import Container from "@material-ui/core/Container";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -13,19 +13,17 @@ import { theme } from "../../../theme/customTheme";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import PanelHeader from "../../../components/PanelHeader";
-import { MenuItem, TextField } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import TablePagination from "@material-ui/core/TablePagination";
 import {
   getProducts,
   deleteAProduct,
-  addAProduct,
+  getAProduct,
 } from "../../../store/actions";
-import Btn from "../../../components/Btn";
-import FiledInput from "@material-ui/core/FilledInput";
-import { handleUploadingImage } from "../../../utils/uploadImage";
+import AddEditModal from "../../../components/AddEditModal";
 
-const PanelProducts = ({ btnTxt, children, ...props }) => {
+const PanelProducts = ({ btnTxt, children, onOpen, ...props }) => {
   const { productId } = useParams();
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
@@ -67,105 +65,29 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
     img: {
       height: 50,
     },
-    input: {
-      marginTop: theme.spacing(3),
-    },
   });
   const classes = useStyles();
 
-  const [state, setstate] = useState({});
-  const [image, setImage] = useState("");
-  const categories = ["لباس", "کیف", "کفش", "اکسسوری"];
-  const subCats = ["زنانه", "مردانه"];
-
-  const handleChange = (event) => {
-    setstate({ ...state, [event.target.name]: event.target.value });
+  const handleEdit = (id) => {
+    dispatch(getAProduct(id));
   };
 
-  const handleTransformImageToBase64 = (e) => {
-    const file = e.target.files[0];
-    console.log(file.name);
-    handleUploadingImage(file).then((res) => {
-      console.log(res);
-      setImage(res);
-    });
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(
-      addAProduct({ ...state, id: rows.length + 1, price: "0", url: image })
-    );
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
+
   return (
     <Container className={classes.root}>
-      <PanelHeader txt={"مدیریت کالا ها"} btnTxt={"افزودن کالای جدید"}>
-        <form onSubmit={handleSubmit}>
-          <p>افزودن / ویرایش کالا</p>
-          <TextField
-            id="outlined-basic"
-            label="نام کالا"
-            variant="outlined"
-            fullWidth
-            required
-            focused
-            name="name"
-            className={classes.input}
-            onChange={handleChange}
-          />
-          <TextField
-            id="outlined-select-category"
-            select
-            fullWidth
-            name="category"
-            label="نوع کالا"
-            onChange={handleChange}
-            variant="outlined"
-            className={classes.input}
-          >
-            {categories.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="outlined-select-subCat"
-            select
-            fullWidth
-            name="subCat"
-            label="مورد استفاده"
-            onChange={handleChange}
-            variant="outlined"
-            className={classes.input}
-          >
-            {subCats.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <FiledInput
-            type="file"
-            fullWidth
-            variant="outlined"
-            color={"primary"}
-            placeholder="slkd"
-            className={classes.input}
-            onChange={handleTransformImageToBase64}
-          />
-          <TextField
-            variant="outlined"
-            multiline
-            fullWidth
-            name="detail"
-            onChange={handleChange}
-            className={classes.input}
-            placeholder="توضیحات"
-          />
-
-          <Btn text={"ذخیره"} color={"primary"} />
-        </form>
+      <PanelHeader txt={"مدیریت کالاها"}>
+        <AddEditModal />
       </PanelHeader>
       <AdminHeader />
       <div>
@@ -182,7 +104,13 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
+              {(rowsPerPage > 0
+                ? rows.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : rows
+              ).map((row, index) => (
                 <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     {row.id}
@@ -203,13 +131,27 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                     />
                   </StyledTableCell>
                   <StyledTableCell>
-                    <EditIcon color="primary" />
+                    <EditIcon
+                      color="primary"
+                      onClick={() => {
+                        handleEdit(row.id);
+                      }}
+                    />
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+          component="div"
+          count={rows.length}
+          page={page}
+          onChangePage={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </div>
     </Container>
   );

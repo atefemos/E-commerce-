@@ -22,6 +22,16 @@ export const getADataById = async (id) => {
   return res;
 };
 
+export const editADataById = async (id) => {
+  let res = await axios({
+    method: "put",
+    url: `http://localhost:5000/products/${id}`,
+    headers: { "content-type": "application/json" },
+  }).catch((err) => toast.error("خطایی رخ داده است!"));
+  res && toast.success("داده مورد نظر به روز شد");
+  return res;
+};
+
 export const deleteADataById = async (id) => {
   let res = await axios({
     method: "delete",

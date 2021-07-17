@@ -46,7 +46,7 @@ const AdminHeader = () => {
   };
 
   return (
-    <AppBar className={classes.root} onClick={() => setOpen(false)}>
+    <AppBar className={classes.root}>
       <Box display="flex" alignItems="center">
         <Box flexGrow={1}>
           <Typography component="h1" variant="h3" color={"secondary"}>
@@ -60,9 +60,9 @@ const AdminHeader = () => {
             aria-label="small outlined primary button group"
             className={classes.display}
           >
-            <Btn text={"کالاها"} />
-            <Btn text={"موجوی و قیمت ها"} />
-            <Btn text={"سفارش"} />
+            <Btn text={"کالاها"} href="/panelproducts" />
+            <Btn text={"موجوی و قیمت ها"} href="/panelsupply" />
+            <Btn text={"سفارش"} href="/panelOrders" />
           </ButtonGroup>
         </Box>
         <Box className={classes.notDisplay}>
@@ -79,9 +79,21 @@ const AdminHeader = () => {
           {["کالاها", "موجودی و قیمت ها", "سفارش ها"].map((text, index) => (
             <ListItem button key={text} className={classes.notDisplay}>
               <ListItemIcon>
-                {index === 0 && <ShoppingBasketIcon color={"secondary"} />}
-                {index === 1 && <AddShoppingCartIcon color={"secondary"} />}
-                {index === 2 && <ShoppingCartIcon color={"secondary"} />}
+                {index === 0 && (
+                  <Link to="/panelproducts">
+                    <ShoppingBasketIcon color={"secondary"} />
+                  </Link>
+                )}
+                {index === 1 && (
+                  <Link to="/panelsupply">
+                    <AddShoppingCartIcon color={"secondary"} />
+                  </Link>
+                )}
+                {index === 2 && (
+                  <Link to="/panelOrders">
+                    <ShoppingCartIcon color={"secondary"} />
+                  </Link>
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
