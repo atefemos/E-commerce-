@@ -13,18 +13,17 @@ import { theme } from "../../../theme/customTheme";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import PanelHeader from "../../../components/PanelHeader";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import TablePagination from "@material-ui/core/TablePagination";
 import {
   getProducts,
   deleteAProduct,
   getAProduct,
-} from "../../../store/actions";
+} from "../../../store/actions/productsActions";
 import AddEditModal from "../../../components/AddEditModal";
+import { openModal } from "../../../store/actions/modalsAction";
 
 const PanelProducts = ({ btnTxt, children, ...props }) => {
-  const { productId } = useParams();
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
 
@@ -44,10 +43,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
   }))(TableCell);
   const StyledTableRow = withStyles((theme) => ({
     root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
-      },
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.light,
     },
   }))(TableRow);
 
@@ -68,9 +64,12 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
   });
   const classes = useStyles();
 
-  const handleEdit = (id) => {
-    dispatch(getAProduct(id));
+  const handleEdit = (e) => {
+    dispatch(openModal());
+    dispatch(getAProduct(e.id));
   };
+
+  //------Pagination------
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -134,7 +133,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                     <EditIcon
                       color="primary"
                       onClick={() => {
-                        handleEdit(row.id);
+                        handleEdit(row);
                       }}
                     />
                   </StyledTableCell>

@@ -21,7 +21,7 @@ function App() {
       <StylesProvider jss={jss}>
         <ThemeProvider theme={theme}>
           <Suspense fallback={<IsLoading />}>
-            <ToastContainer />
+            <ToastContainer className="toast_right" />
             <Router>
               <Switch>
                 <Route path="/" exact component={ProductsList} />

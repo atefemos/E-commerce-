@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAProduct, addedProduct } from "../store/actions";
+import { addAProduct, addedProduct } from "../store/actions/productsActions";
 import { MenuItem, TextField } from "@material-ui/core";
 import { handleUploadingImage } from "../utils/uploadImage";
 import FiledInput from "@material-ui/core/FilledInput";
 import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "../theme/customTheme";
-
 import BasicModal from "./BasicModal";
 import Btn from "./Btn";
+import { closeModal } from "../store/actions/modalsAction";
 
-const AddEditModal = ({ onOpen, ...props }) => {
+const AddEditModal = () => {
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
 
@@ -44,6 +44,7 @@ const AddEditModal = ({ onOpen, ...props }) => {
         supply: "0",
       })
     );
+    dispatch(closeModal());
   };
 
   const handleTransformImageToBase64 = (e) => {

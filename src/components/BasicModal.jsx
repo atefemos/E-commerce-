@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Btn from "./Btn";
 import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, openModal } from "../store/actions/modalsAction";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,14 +36,16 @@ function getModalStyle() {
 const BasicModal = ({ btnTxt, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const open = useSelector((state) => state.modal.open);
+  console.log(open);
+  const dispatch = useDispatch();
 
   const handleOpen = () => {
-    setOpen(true);
+    dispatch(openModal());
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(closeModal());
   };
 
   const body = (
@@ -57,7 +61,7 @@ const BasicModal = ({ btnTxt, ...props }) => {
 
   return (
     <div>
-      <Btn text={btnTxt} onOpen={handleOpen} />
+      <Btn text={btnTxt} onClick={handleOpen} />
       <Modal
         open={open}
         onClose={handleClose}

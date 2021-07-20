@@ -4,8 +4,8 @@ import {
   deleteADataById,
   addAData,
   editADataById,
-} from "../api/productApi";
-import { ActionTypes } from "./actionTypes";
+} from "../../api/productApi";
+import { ActionTypes } from "../actionTypes";
 
 export const setProducts = (products) => {
   return {
@@ -51,6 +51,7 @@ export const getProducts = () => async (dispatch, getState) => {
 
 export const getAProduct = (id) => async (dispatch) => {
   let res = await getADataById(id);
+  console.log(res);
   dispatch(selectedProduct(res.data));
 };
 
@@ -64,11 +65,9 @@ export const addAProduct = (product) => async (dispatch, getState) => {
   let res = await addAData(product);
   console.log(res);
   dispatch(addedProduct(res.data));
-  // window.location.reload();
 };
 export const editAProduct = (product) => async (dispatch, getState) => {
   let res = await editADataById(product);
   console.log(res);
   dispatch(editedProduct(res.data));
-  // window.location.reload();
 };

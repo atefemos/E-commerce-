@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../assets/styles.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 export const getAllData = async () => {
@@ -8,7 +9,7 @@ export const getAllData = async () => {
     url: "http://localhost:5000/products",
     headers: { "content-type": "application/json" },
   }).catch((err) => toast.error("خطایی رخ داده است!"));
-  res && toast.success("داده ها بارگذاری شد");
+  res && toast.success("کالا ها بارگذاری شد");
   return res;
 };
 
@@ -28,7 +29,7 @@ export const editADataById = async (id) => {
     url: `http://localhost:5000/products/${id}`,
     headers: { "content-type": "application/json" },
   }).catch((err) => toast.error("خطایی رخ داده است!"));
-  res && toast.success("داده مورد نظر به روز شد");
+  res && toast.success("مشحصات کالا به روز شد");
   return res;
 };
 
@@ -38,7 +39,7 @@ export const deleteADataById = async (id) => {
     url: `http://localhost:5000/products/${id}`,
     headers: { "content-type": "application/json" },
   }).catch((err) => toast.error("خطایی رخ داده است!"));
-  res && toast.success("داده ها بارگذاری شد");
+  res && toast.warning("کالای انتخاب شده حذف شد");
   return res;
 };
 
@@ -49,6 +50,6 @@ export const addAData = async (product) => {
     headers: { "content-type": "application/json" },
     data: JSON.stringify(product),
   }).catch((err) => toast.error("خطایی رخ داده است!"));
-  res && toast.success("داده ها بارگذاری شد");
+  res && toast.success("کالا اضافه شد");
   return res;
 };

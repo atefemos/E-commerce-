@@ -1,26 +1,7 @@
-import { Container, makeStyles } from "@material-ui/core";
+import { Container, makeStyles, withStyles } from "@material-ui/core";
 import React from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import PanelHeader from "../../../components/PanelHeader";
-// import { theme } from "../../../theme/customTheme";
-
-// const useStyle = makeStyles({
-//   root: {
-//
-//   },
-// });
-
-// const PanelOrders = () => {
-//   const classes = useStyle();
-//   return (
-//     <Container className={classes.root}>
-//
-//     </Container>
-//   );
-// };
-
-// export default PanelOrders;
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -30,26 +11,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Cupcake", 305, 3.7, 67),
-  createData("Donut", 452, 25.0, 51),
-  createData("Eclair", 262, 16.0, 24),
-  createData("Frozen yoghurt", 159, 6.0, 24),
-  createData("Gingerbread", 356, 16.0, 49),
-  createData("Honeycomb", 408, 3.2, 87),
-  createData("Ice cream sandwich", 237, 9.0, 37),
-  createData("Jelly Bean", 375, 0.0, 94),
-  createData("KitKat", 518, 26.0, 65),
-  createData("Lollipop", 392, 0.2, 98),
-  createData("Marshmallow", 318, 0, 81),
-  createData("Nougat", 360, 19.0, 9),
-  createData("Oreo", 437, 18.0, 63),
-];
+import MoreIcon from "@material-ui/icons/More";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getOrders } from "../../../store/actions/ordersAction";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -85,9 +50,9 @@ const headCells = [
     disablePadding: true,
     label: "نام کاربر",
   },
-  { id: "calories", numeric: true, label: "مجموع مبلغ" },
-  { id: "fat", numeric: true, label: "زمان ثبت سفارش" },
-  { id: "carbs", numeric: true, label: "بررسی" },
+  { id: "totalPrice", numeric: true, label: "مجموع مبلغ" },
+  { id: "orderDate", numeric: true, label: "زمان ثبت سفارش" },
+  { id: "more", numeric: true, label: "بررسی" },
 ];
 
 function EnhancedTableHead(props) {
@@ -100,7 +65,7 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={"left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -118,12 +83,23 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
       </TableRow>
     </TableHead>
   );
 }
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    align: "left",
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,12 +107,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(4),
     backgroundColor: theme.palette.secondary.light,
   },
-  paper: {
-    width: "100%",
-    marginBottom: theme.spacing(2),
-  },
   table: {
-    minWidth: 750,
+    minWidth: 700,
   },
   visuallyHidden: {
     border: 0,
@@ -158,20 +130,19 @@ export default function PanelOrders() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const orders = useSelector((state) => state.allOrders);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+
+  const rows = orders.orders;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -190,64 +161,48 @@ export default function PanelOrders() {
     <Container className={classes.root}>
       <AdminHeader />
       <PanelHeader txt={"مدیریت سفارش ها"}></PanelHeader>
-      <Paper className={classes.paper}>
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow hover>
-                      <TableCell align="left">{row.id}</TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="left">{row.calories}</TableCell>
-                      <TableCell align="left">{row.fat}</TableCell>
-                      <TableCell align="left">{row.carbs}</TableCell>
-                      <TableCell align="left">{row.protein}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
-          component="div"
-          count={rows.length}
-          page={page}
-          onChangePage={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
+      <TableContainer component={Paper}>
+        <Table
+          className={classes.table}
+          aria-labelledby="tableTitle"
+          aria-label="enhanced table"
+        >
+          <EnhancedTableHead
+            classes={classes}
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover key={row.id}>
+                    <TableCell align="left">{row.id}</TableCell>
+                    <TableCell align="left">{row.person}</TableCell>
+                    <TableCell align="left">{row.totalPrice}</TableCell>
+                    <TableCell align="left">{row.orderDate}</TableCell>
+                    <TableCell align="left">
+                      <MoreIcon onClick={() => console.log("click")} />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+        component="div"
+        count={rows.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </Container>
   );
 }

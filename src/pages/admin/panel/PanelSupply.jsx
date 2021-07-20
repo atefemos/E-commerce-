@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,12 +12,29 @@ import PanelHeader from "../../../components/PanelHeader";
 import AdminHeader from "../../../components/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
 import TablePagination from "@material-ui/core/TablePagination";
-import { editAProduct, getProducts } from "../../../store/actions";
-import Btn from "../../../components/Btn";
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import {
+  editAProduct,
+  getProducts,
+} from "../../../store/actions/productsActions";
 // Icons
 import EditIcon from "@material-ui/icons/EditOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
+
+//------Set Style------
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    align: "left",
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +72,6 @@ const CustomTableCell = ({ row, name, onChange }) => {
           name={name}
           onChange={(e) => onChange(e, row)}
           className={classes.input}
-          color="primary"
         />
       ) : (
         row[name]
@@ -65,18 +81,19 @@ const CustomTableCell = ({ row, name, onChange }) => {
 };
 
 const PanelSuppply = () => {
+  //------Redux------
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
-
-  // const rows = products.products;
-  const [rows, setRows] = useState(products.products);
-  console.log(rows);
-  const [previous, setPrevious] = useState({});
+  //------Style------
   const classes = useStyles();
+  // useEffect(() => {
+  //   dispatch(getProducts());
+  // }, []);
+
+  const rowsy = [...products.products];
+  const [rows, setRows] = useState(rowsy);
+  console.log(rowsy);
+  const [previous, setPrevious] = useState({});
 
   const onToggleEditMode = (id) => {
     setRows((state) => {
@@ -104,7 +121,6 @@ const PanelSuppply = () => {
     });
     setRows(newRows);
   };
-
   const onRevert = (id) => {
     const newRows = rows.map((row) => {
       if (row.id === id) {
@@ -119,6 +135,8 @@ const PanelSuppply = () => {
     });
     onToggleEditMode(id);
   };
+
+  //------Pagination------
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -140,56 +158,57 @@ const PanelSuppply = () => {
         <Btn text={"خیر"} /> */}
       </PanelHeader>
       <AdminHeader />
-      <Table className={classes.table} aria-label="caption table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">ردیف</TableCell>
-            <TableCell align="left">نام کالا</TableCell>
-            <TableCell align="left">قیمت</TableCell>
-            <TableCell align="left">موجودی</TableCell>
-            <TableCell align="left">ویرایش</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.id}>
-              <CustomTableCell {...{ row, name: "id" }} />
-
-              <CustomTableCell {...{ row, name: "name" }} />
-              <CustomTableCell {...{ row, name: "price" }} />
-              <CustomTableCell {...{ row, name: "supply" }} />
-              <TableCell className={classes.selectTableCell}>
-                {row.isEditMode ? (
-                  <>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="caption table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">ردیف</StyledTableCell>
+              <StyledTableCell align="left">نام کالا</StyledTableCell>
+              <StyledTableCell align="left">قیمت</StyledTableCell>
+              <StyledTableCell align="left">موجودی</StyledTableCell>
+              <StyledTableCell align="left">ویرایش</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
+              <TableRow key={row.id}>
+                <CustomTableCell {...{ row, name: "id", onChange }} />
+                <CustomTableCell {...{ row, name: "name", onChange }} />
+                <CustomTableCell {...{ row, name: "price", onChange }} />
+                <CustomTableCell {...{ row, name: "supply", onChange }} />
+                <TableCell className={classes.selectTableCell}>
+                  {row.isEditMode ? (
+                    <>
+                      <IconButton
+                        aria-label="done"
+                        onClick={() => onToggleEditMode(row.id)}
+                      >
+                        <DoneIcon />
+                      </IconButton>
+                      <IconButton
+                        aria-label="revert"
+                        onClick={() => onRevert(row.id)}
+                      >
+                        <RevertIcon />
+                      </IconButton>
+                    </>
+                  ) : (
                     <IconButton
-                      aria-label="done"
+                      aria-label="delete"
                       onClick={() => onToggleEditMode(row.id)}
                     >
-                      <DoneIcon />
+                      <EditIcon />
                     </IconButton>
-                    <IconButton
-                      aria-label="revert"
-                      onClick={() => onRevert(row.id)}
-                    >
-                      <RevertIcon />
-                    </IconButton>
-                  </>
-                ) : (
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => onToggleEditMode(row.id)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
         component="div"
