@@ -127,7 +127,6 @@ export default function PanelOrders() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const orders = useSelector((state) => state.allOrders);
@@ -169,7 +168,6 @@ export default function PanelOrders() {
         >
           <EnhancedTableHead
             classes={classes}
-            numSelected={selected.length}
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}

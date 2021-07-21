@@ -10,6 +10,9 @@ import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
 import { ToastContainer } from "react-toastify";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
+//------Lazy Load------
 
 const PanelProducts = lazy(() => import("./pages/admin/panel/PanelProducts"));
 const PanelSupply = lazy(() => import("./pages/admin/panel/PanelSupply"));
@@ -28,9 +31,21 @@ function App() {
                 <Route path="/cards" exact component={Cards} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/login" exact component={LogIn} />
-                <Route path="/panelproducts" exact component={PanelProducts} />
-                <Route path="/panelsupply" exact component={PanelSupply} />
-                <Route path="/panelOrders" exact component={PanelOrders} />
+                <ProtectedRoute
+                  path="/panelproducts"
+                  exact
+                  component={PanelProducts}
+                />
+                <ProtectedRoute
+                  path="/panelsupply"
+                  exact
+                  component={PanelSupply}
+                />
+                <ProtectedRoute
+                  path="/panelOrders"
+                  exact
+                  component={PanelOrders}
+                />
                 <Route path="*" exact component={NotFound} />
               </Switch>
             </Router>

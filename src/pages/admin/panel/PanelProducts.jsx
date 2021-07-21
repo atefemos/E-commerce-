@@ -59,7 +59,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
       backgroundColor: theme.palette.secondary.light,
     },
     img: {
-      height: 50,
+      height: 30,
     },
   });
   const classes = useStyles();
@@ -91,7 +91,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
       <AdminHeader />
       <div>
         <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
+          <Table className={classes.table} aria-label=" customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>ردیف</StyledTableCell>
@@ -110,7 +110,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                   )
                 : rows
               ).map((row, index) => (
-                <StyledTableRow key={row.id}>
+                <TableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     {row.id}
                   </StyledTableCell>
@@ -137,7 +137,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                       }}
                     />
                   </StyledTableCell>
-                </StyledTableRow>
+                </TableRow>
               ))}
             </TableBody>
           </Table>
