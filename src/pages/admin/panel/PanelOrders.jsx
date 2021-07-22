@@ -75,6 +75,7 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              className={classes.sort}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -120,6 +121,16 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 20,
     width: 1,
+    color: theme.palette.common.white,
+
+    "&:active,&:focus,&:hover": {
+      color: theme.palette.common.white,
+    },
+  },
+  sort: {
+    "&:active,&:focus,&:hover": {
+      color: theme.palette.secondary.main,
+    },
   },
 }));
 
@@ -137,6 +148,7 @@ export default function PanelOrders() {
   }, []);
 
   const rows = orders.orders;
+  // const rows = [];
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -152,9 +164,6 @@ export default function PanelOrders() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <Container className={classes.root}>

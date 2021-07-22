@@ -37,7 +37,6 @@ const BasicModal = ({ btnTxt, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const open = useSelector((state) => state.modal.open);
-  console.log(open);
   const dispatch = useDispatch();
 
   const handleOpen = () => {

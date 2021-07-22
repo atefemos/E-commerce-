@@ -91,7 +91,7 @@ const PanelSuppply = () => {
   // }, []);
 
   const rowsy = [...products.products];
-  const [rows, setRows] = useState(rowsy);
+  const [rows, setRows] = useState([]);
   console.log(rowsy);
   const [previous, setPrevious] = useState({});
 

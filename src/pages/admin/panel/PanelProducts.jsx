@@ -41,13 +41,10 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
       fontSize: 14,
     },
   }))(TableCell);
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      backgroundColor: theme.palette.secondary.light,
-    },
-  }))(TableRow);
 
-  const rows = products.products;
+  // const rows = products.products;
+  const rows = [];
+  console.log(rows);
 
   const useStyles = makeStyles({
     table: {

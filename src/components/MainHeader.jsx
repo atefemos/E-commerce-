@@ -128,7 +128,7 @@ const MainHeader = () => {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="جستجوی کالا ..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
