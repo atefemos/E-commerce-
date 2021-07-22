@@ -2,14 +2,14 @@ import { Paper } from "@material-ui/core";
 import * as React from "react";
 import MainHeader from "../../components/MainHeader";
 import { makeStyles, styled } from "@material-ui/core/styles";
-import ArrowForwardIosSharpIcon from "@material-ui/icons/ArrowForwardIosSharp";
-import MuiAccordion from "@material-ui/core/Accordion";
-import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
-import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import { Container } from "@material-ui/core";
 import { theme } from "../../theme/customTheme";
 import { Grid } from "@material-ui/core";
+import BasicCard from "../../components/BasicCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getProducts } from "../../store/actions/productsActions";
 
 const useStyle = makeStyles({
   paper: {
@@ -37,6 +37,18 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const ProductsList = () => {
+  const products = useSelector((state) => state.allProducts.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
+  const dress = products.filter((item) => item.category === "پوشاک");
+  const bag = products.filter((item) => item.category === "کیف");
+  const showes = products.filter((item) => item.category === "کفش");
+  const accessory = products.filter((item) => item.category === "اکسسوری");
+
   const classes = useStyle();
   return (
     <Paper className={classes.paper}>
@@ -46,24 +58,15 @@ const ProductsList = () => {
           پوشاک
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
+          {dress.map((item) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <BasicCard
+                txtTitle={item.name}
+                txtPrice={`${item.price} تومان`}
+                txtUrl={item.url}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <Container className={classes.root}>
@@ -71,24 +74,15 @@ const ProductsList = () => {
           کیف
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
+          {bag.map((item) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <BasicCard
+                txtTitle={item.name}
+                txtPrice={`${item.price} تومان`}
+                txtUrl={item.url}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <Container className={classes.root}>
@@ -96,24 +90,15 @@ const ProductsList = () => {
           کفش
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
+          {showes.map((item) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <BasicCard
+                txtTitle={item.name}
+                txtPrice={`${item.price} تومان`}
+                txtUrl={item.url}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <Container className={classes.root}>
@@ -121,24 +106,15 @@ const ProductsList = () => {
           اکسسوری
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Item></Item>
-          </Grid>
+          {accessory.map((item) => (
+            <Grid item xs={12} sm={6} md={4}>
+              <BasicCard
+                txtTitle={item.name}
+                txtPrice={`${item.price} تومان`}
+                txtUrl={item.url}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </Paper>

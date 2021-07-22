@@ -42,8 +42,8 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
     },
   }))(TableCell);
 
-  // const rows = products.products;
-  const rows = [];
+  const rows = products.products;
+  // const rows = [];
   console.log(rows);
 
   const useStyles = makeStyles({

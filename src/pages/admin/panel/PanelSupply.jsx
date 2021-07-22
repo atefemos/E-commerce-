@@ -82,7 +82,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
 
 const PanelSuppply = () => {
   //------Redux------
-  const products = useSelector((state) => state.allProducts);
+  const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
   //------Style------
   const classes = useStyles();
@@ -90,8 +90,8 @@ const PanelSuppply = () => {
   //   dispatch(getProducts());
   // }, []);
 
-  const rowsy = [...products.products];
-  const [rows, setRows] = useState([]);
+  const rowsy = [...products];
+  const [rows, setRows] = useState(rowsy);
   console.log(rowsy);
   const [previous, setPrevious] = useState({});
 
