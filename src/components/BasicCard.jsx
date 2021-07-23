@@ -10,19 +10,20 @@ import Btn from "../components/Btn";
 
 const useStyles = makeStyles({
   root: {
-    // maxWidth: 345,
+    minWidth: 250,
+    maxWidth: 400,
   },
   media: {
     height: 240,
   },
 });
 
-const BasicCard = ({ txtTitle, txtPrice, txtUrl, ...props }) => {
+const BasicCard = ({ txtTitle, txtPrice, txtUrl, onClick, ...props }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={onClick}>
         <CardMedia
           className={classes.media}
           image={txtUrl}

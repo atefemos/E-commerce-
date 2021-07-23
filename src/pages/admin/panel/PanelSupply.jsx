@@ -82,17 +82,20 @@ const CustomTableCell = ({ row, name, onChange }) => {
 
 const PanelSuppply = () => {
   //------Redux------
-  const products = useSelector((state) => state.allProducts.products);
+  const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
   //------Style------
   const classes = useStyles();
-  // useEffect(() => {
-  //   dispatch(getProducts());
-  // }, []);
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
-  const rowsy = [...products];
-  const [rows, setRows] = useState(rowsy);
-  console.log(rowsy);
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => async () => {
+    await setRows(products.products);
+  });
+
   const [previous, setPrevious] = useState({});
 
   const onToggleEditMode = (id) => {

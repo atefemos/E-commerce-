@@ -10,6 +10,7 @@ import BasicCard from "../../components/BasicCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getProducts } from "../../store/actions/productsActions";
+import { useHistory } from "react-router-dom";
 
 const useStyle = makeStyles({
   paper: {
@@ -27,18 +28,16 @@ const useStyle = makeStyles({
   typo: {
     marginBottom: theme.spacing(2),
   },
+  scroll: {
+    overflowX: "scroll",
+    flexWrap: "nowrap",
+  },
 });
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const ProductsList = () => {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getProducts());
@@ -57,13 +56,14 @@ const ProductsList = () => {
         <Typography variant="h3" className={classes.typo}>
           پوشاک
         </Typography>
-        <Grid container spacing={2}>
-          {dress.map((item) => (
+        <Grid container spacing={2} className={classes.scroll}>
+          {dress.slice(0, 3).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
+                onClick={() => history.push(`/products/${item.id}`)}
               />
             </Grid>
           ))}
@@ -73,13 +73,14 @@ const ProductsList = () => {
         <Typography variant="h3" className={classes.typo}>
           کیف
         </Typography>
-        <Grid container spacing={2}>
-          {bag.map((item) => (
+        <Grid container spacing={2} className={classes.scroll}>
+          {bag.slice(0, 3).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
+                onClick={() => history.push(`/products/${item.id}`)}
               />
             </Grid>
           ))}
@@ -89,13 +90,14 @@ const ProductsList = () => {
         <Typography variant="h3" className={classes.typo}>
           کفش
         </Typography>
-        <Grid container spacing={2}>
-          {showes.map((item) => (
+        <Grid container spacing={2} className={classes.scroll}>
+          {showes.slice(0, 3).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
+                onClick={() => history.push(`/products/${item.id}`)}
               />
             </Grid>
           ))}
@@ -105,13 +107,14 @@ const ProductsList = () => {
         <Typography variant="h3" className={classes.typo}>
           اکسسوری
         </Typography>
-        <Grid container spacing={2}>
-          {accessory.map((item) => (
+        <Grid container spacing={2} className={classes.scroll}>
+          {accessory.slice(0, 3).map((item) => (
             <Grid item xs={12} sm={6} md={4}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
+                onClick={() => history.push(`/products/${item.id}`)}
               />
             </Grid>
           ))}
