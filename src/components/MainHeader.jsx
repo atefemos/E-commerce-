@@ -13,6 +13,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import img from "../assets/images/logo.svg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -121,8 +122,9 @@ const MainHeader = () => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <img src={img} alt="paliz logo" width="70" />
-
+          <Link to={"/"}>
+            <img src={img} alt="paliz logo" width="70" />
+          </Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

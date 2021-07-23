@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -9,11 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
+import TurnedInIcon from "@material-ui/icons/TurnedIn";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import MainHeader from "../../components/MainHeader";
-import { Paper } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../store/actions/productsActions";
+import { useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import BasicCard from "../../components/BasicCard";
 
 const drawerWidth = 240;
 
@@ -38,10 +43,39 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  typo: {
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const Category = () => {
   const classes = useStyles();
+  const products = useSelector((state) => state.allProducts.products);
+  const dispatch = useDispatch();
+  const { name } = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
+  const categories = ["پوشاک", "کیف", "کفش", "اکسسوری"];
+  const subCats = ["زنانه", "مردانه"];
+  const data = products.filter((item) => item.category === name);
+
+  const Icon = ({ item }) => {
+    const [selected, setSelected] = useState(false);
+    return (
+      <ListItemIcon
+        onClick={() => {
+          history.push(`/category/${item}`);
+          setSelected(!selected);
+        }}
+      >
+        {selected ? <TurnedInIcon /> : <TurnedInNotIcon />}
+      </ListItemIcon>
+    );
+  };
 
   return (
     <Paper className={classes.root}>
@@ -59,23 +93,19 @@ const Category = () => {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            {categories.map((item, index) => (
+              <ListItem key={index}>
+                <Icon item={item} />
+                {item}
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            {subCats.map((item, index) => (
+              <ListItem key={index}>
+                <Icon />
+                {item}
               </ListItem>
             ))}
           </List>
@@ -83,21 +113,20 @@ const Category = () => {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography varient="h3">category</Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
+        <Typography varient="h3" className={classes.typo}>
+          {name}
         </Typography>
+        <Grid container spacing={2}>
+          {data.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <BasicCard
+                txtTitle={item.name}
+                txtPrice={`${item.price} تومان`}
+                txtUrl={item.url}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </main>
     </Paper>
   );

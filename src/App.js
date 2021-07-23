@@ -36,7 +36,7 @@ function App() {
                 <Route path="/" exact component={ProductsList} />
                 <Route path="/cards" exact component={Cards} />
                 <Route path="/products/:id" exact component={ProductDetail} />
-                <Route path="/category" exact component={Category} />
+                <Route path="/category/:name" exact component={Category} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/login" exact component={LogIn} />
                 <ProtectedRoute

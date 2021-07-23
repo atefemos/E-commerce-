@@ -1,7 +1,7 @@
 import { Paper } from "@material-ui/core";
 import * as React from "react";
 import MainHeader from "../../components/MainHeader";
-import { makeStyles, styled } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Container } from "@material-ui/core";
 import { theme } from "../../theme/customTheme";
@@ -53,12 +53,16 @@ const ProductsList = () => {
     <Paper className={classes.paper}>
       <MainHeader />
       <Container className={classes.root}>
-        <Typography variant="h3" className={classes.typo}>
+        <Typography
+          variant="h3"
+          className={classes.typo}
+          onClick={() => history.push(`/category/پوشاک`)}
+        >
           پوشاک
         </Typography>
         <Grid container spacing={2} className={classes.scroll}>
           {dress.slice(0, 3).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
@@ -70,12 +74,16 @@ const ProductsList = () => {
         </Grid>
       </Container>
       <Container className={classes.root}>
-        <Typography variant="h3" className={classes.typo}>
+        <Typography
+          variant="h3"
+          className={classes.typo}
+          onClick={() => history.push(`/category/کیف`)}
+        >
           کیف
         </Typography>
         <Grid container spacing={2} className={classes.scroll}>
           {bag.slice(0, 3).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
@@ -87,12 +95,16 @@ const ProductsList = () => {
         </Grid>
       </Container>
       <Container className={classes.root}>
-        <Typography variant="h3" className={classes.typo}>
+        <Typography
+          variant="h3"
+          className={classes.typo}
+          onClick={() => history.push(`/category/کفش`)}
+        >
           کفش
         </Typography>
         <Grid container spacing={2} className={classes.scroll}>
           {showes.slice(0, 3).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
@@ -104,12 +116,16 @@ const ProductsList = () => {
         </Grid>
       </Container>
       <Container className={classes.root}>
-        <Typography variant="h3" className={classes.typo}>
+        <Typography
+          variant="h3"
+          className={classes.typo}
+          onClick={() => history.push(`/category/اکسسوری`)}
+        >
           اکسسوری
         </Typography>
         <Grid container spacing={2} className={classes.scroll}>
           {accessory.slice(0, 3).map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
