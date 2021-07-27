@@ -6,6 +6,7 @@ import {
   editADataById,
 } from "../../api/productApi";
 import { ActionTypes } from "../actionTypes";
+import { closeModal, openModal } from "./modalsAction";
 
 export const setProducts = (products) => {
   return {
@@ -49,13 +50,12 @@ export const getProducts = () => async (dispatch, getState) => {
   dispatch(setProducts(res.data));
 };
 
-export const getAProduct = (id) => async (dispatch) => {
+export const getAProduct = (id) => async (dispatch, getState) => {
   let res = await getADataById(id);
-  console.log(res);
   dispatch(selectedProduct(res.data));
 };
 
-export const deleteAProduct = (id) => async (dispatch) => {
+export const deleteAProduct = (id) => async (dispatch, getState) => {
   let res = await deleteADataById(id);
   dispatch(deletedProduct(res.data));
   window.location.reload();
@@ -65,9 +65,10 @@ export const addAProduct = (product) => async (dispatch, getState) => {
   let res = await addAData(product);
   console.log(res);
   dispatch(addedProduct(res.data));
+  dispatch(closeModal());
 };
-export const editAProduct = (product) => async (dispatch, getState) => {
-  let res = await editADataById(product);
+export const editAProduct = (id, product) => async (dispatch, getState) => {
+  let res = await editADataById(id, product);
   console.log(res);
   dispatch(editedProduct(res.data));
 };

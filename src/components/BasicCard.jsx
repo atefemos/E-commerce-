@@ -18,7 +18,14 @@ const useStyles = makeStyles({
   },
 });
 
-const BasicCard = ({ txtTitle, txtPrice, txtUrl, onClick, ...props }) => {
+const BasicCard = ({
+  txtTitle,
+  txtPrice,
+  txtUrl,
+  onClick,
+  addCart,
+  ...props
+}) => {
   const classes = useStyles();
 
   return (
@@ -39,7 +46,12 @@ const BasicCard = ({ txtTitle, txtPrice, txtUrl, onClick, ...props }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Btn size="large" color="primary" text={"افزودن به سبد خرید"} />
+        <Btn
+          size="large"
+          color="primary"
+          text={"افزودن به سبد خرید"}
+          onClick={addCart}
+        />
       </CardActions>
     </Card>
   );

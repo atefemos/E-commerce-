@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// const badgeContent = localStorage.getItem("carts").length;
+// console.log(badgeContent);
+
 const MainHeader = () => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -95,9 +98,9 @@ const MainHeader = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit" href="/cards">
+        <IconButton aria-label="show new order" color="inherit" href="/cards">
           <Badge badgeContent={0} color="secondary">
-            <MailIcon />
+            <ShoppingCartIcon />
           </Badge>
         </IconButton>
         <p>سبد خرید</p>

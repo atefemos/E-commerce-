@@ -2,6 +2,7 @@ import { ActionTypes } from "../actionTypes";
 
 const initialState = {
   products: [],
+  product: {},
 };
 
 export const productReducer = (state = initialState, { type, payload }) => {
@@ -21,11 +22,8 @@ export const productReducer = (state = initialState, { type, payload }) => {
         products: [...state.products, payload],
       };
 
-    // case ActionTypes.EDITED_PRODUCT:
-    //   return {
-    //     ...state,
-    //     products: state.products.find((item) => item.id === payload),
-    //   };
+    case ActionTypes.EDITED_PRODUCT:
+      return { ...state, product: { ...state.product, payload } };
 
     default:
       return state;

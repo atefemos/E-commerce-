@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+/* eslint-disable no-lone-blocks */
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAProduct, addedProduct } from "../store/actions/productsActions";
+import {
+  addAProduct,
+  editAProduct,
+  selectedProduct,
+} from "../store/actions/productsActions";
 import { MenuItem, TextField } from "@material-ui/core";
 import { handleUploadingImage } from "../utils/uploadImage";
 import FiledInput from "@material-ui/core/FilledInput";
@@ -8,50 +13,75 @@ import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "../theme/customTheme";
 import BasicModal from "./BasicModal";
 import Btn from "./Btn";
-import { closeModal } from "../store/actions/modalsAction";
+import { openModal } from "../store/actions/modalsAction";
 
-const AddEditModal = () => {
+//------styles------
+const useStyles = makeStyles({
+  input: {
+    marginTop: theme.spacing(1),
+  },
+});
+
+const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
+  const classes = useStyles();
+
+  useEffect(() => async () => {
+    await setSelect(selected);
+  });
+
+  //------redux------
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
 
-  const [state, setstate] = useState({});
+  //------states------
+  const [select, setSelect] = useState(null);
+  const [state, setState] = useState(true ? selected : {});
   const [image, setImage] = useState("");
-  const categories = ["لباس", "کیف", "کفش", "اکسسوری"];
+
+  const categories = ["پوشاک", "کیف", "کفش", "اکسسوری"];
   const subCats = ["زنانه", "مردانه"];
 
   const rows = products.products;
 
-  const useStyles = makeStyles({
-    input: {
-      marginTop: theme.spacing(3),
-    },
-  });
-
-  const classes = useStyles();
-
-  const handleChange = (event) => {
-    setstate({ ...state, [event.target.name]: event.target.value });
+  //------handle functions------
+  const handleChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+    console.log(state);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, id) => {
     e.preventDefault();
-    dispatch(
-      addAProduct({
-        ...state,
-        id: rows.length + 1,
-        price: "0",
-        url: image,
-        supply: "0",
-      })
-    );
-    dispatch(closeModal());
+    {
+      editable
+        ? dispatch(
+            editAProduct(selected?.id, {
+              ...state,
+              id: id,
+              price: "0",
+              url: image,
+              supply: "0",
+            })
+          )
+        : dispatch(
+            addAProduct({
+              ...state,
+              id: rows.length + 1,
+              price: "0",
+              url: image,
+              supply: "0",
+            })
+          );
+    }
+    setEditable(false);
   };
 
+  // dispatch(getAProduct(e.id));
+  editable && dispatch(openModal());
+
+  //------upload image function------
   const handleTransformImageToBase64 = (e) => {
     const file = e.target.files[0];
-    console.log(file.name);
     handleUploadingImage(file).then((res) => {
-      console.log(res);
       setImage(res);
     });
   };
@@ -68,6 +98,7 @@ const AddEditModal = () => {
           required
           focused
           name="name"
+          defaultValue={selected?.name}
           className={classes.input}
           onChange={handleChange}
         />
@@ -76,6 +107,7 @@ const AddEditModal = () => {
           select
           fullWidth
           name="category"
+          defaultValue={selected?.category}
           label="نوع کالا"
           onChange={handleChange}
           variant="outlined"
@@ -92,6 +124,7 @@ const AddEditModal = () => {
           select
           fullWidth
           name="subCat"
+          defaultValue={select?.subCat}
           label="مورد استفاده"
           onChange={handleChange}
           variant="outlined"
@@ -117,6 +150,7 @@ const AddEditModal = () => {
           multiline
           fullWidth
           name="detail"
+          defaultValue={selected?.detail}
           onChange={handleChange}
           className={classes.input}
           placeholder="توضیحات"

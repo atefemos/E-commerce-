@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getProducts } from "../../store/actions/productsActions";
 import { useHistory } from "react-router-dom";
+import { storeInLocalStorage } from "../../utils/cartLocalStorage";
 
 const useStyle = makeStyles({
   paper: {
@@ -34,7 +35,7 @@ const useStyle = makeStyles({
   },
 });
 
-const ProductsList = () => {
+const ProductsList = ({ props }) => {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -68,6 +69,9 @@ const ProductsList = () => {
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
+                addCart={() =>
+                  storeInLocalStorage("carts", `${item.id}`, { item })
+                }
               />
             </Grid>
           ))}
@@ -89,6 +93,9 @@ const ProductsList = () => {
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
+                addCart={() => {
+                  storeInLocalStorage("carts", `${item.id}`, { item });
+                }}
               />
             </Grid>
           ))}
@@ -110,6 +117,9 @@ const ProductsList = () => {
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
+                addCart={() =>
+                  storeInLocalStorage("carts", `${item.id}`, { item })
+                }
               />
             </Grid>
           ))}
@@ -131,6 +141,9 @@ const ProductsList = () => {
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
+                addCart={() =>
+                  storeInLocalStorage("carts", `${item.id}`, { item })
+                }
               />
             </Grid>
           ))}

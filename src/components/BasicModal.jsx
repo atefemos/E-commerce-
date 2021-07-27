@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -6,16 +7,17 @@ import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal, openModal } from "../store/actions/modalsAction";
 
+//------style------
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    maxWidth: 350,
-    minWidth: 250,
+    maxWidth: 300,
+    minWidth: 240,
     backgroundColor: theme.palette.secondary.light,
     border: `2px solid ${theme.palette.secondary.main}`,
     borderRadius: 15,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3),
   },
   btn: {
     float: "right",
@@ -36,9 +38,12 @@ function getModalStyle() {
 const BasicModal = ({ btnTxt, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+
+  //------redux------
   const open = useSelector((state) => state.modal.open);
   const dispatch = useDispatch();
 
+  //------handle functions------
   const handleOpen = () => {
     dispatch(openModal());
   };
@@ -47,6 +52,7 @@ const BasicModal = ({ btnTxt, ...props }) => {
     dispatch(closeModal());
   };
 
+  //------children(body)------
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <CancelTwoToneIcon

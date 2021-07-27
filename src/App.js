@@ -4,7 +4,7 @@ import { jss, theme } from "./theme/customTheme";
 import { StylesProvider } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import IsLoading from "./components/IsLoading";
-import Cards from "./pages/customer/Cards";
+import Carts from "./pages/customer/Carts";
 import Profile from "./pages/customer/Profile";
 import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
@@ -34,7 +34,7 @@ function App() {
             <Router>
               <Switch>
                 <Route path="/" exact component={ProductsList} />
-                <Route path="/cards" exact component={Cards} />
+                <Route path="/cards" exact component={Carts} />
                 <Route path="/products/:id" exact component={ProductDetail} />
                 <Route path="/category/:name" exact component={Category} />
                 <Route path="/profile" exact component={Profile} />

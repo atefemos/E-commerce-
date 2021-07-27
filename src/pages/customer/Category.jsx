@@ -104,7 +104,7 @@ const Category = () => {
           <List>
             {subCats.map((item, index) => (
               <ListItem key={index}>
-                <Icon />
+                <Icon item={item} />
                 {item}
               </ListItem>
             ))}
@@ -123,6 +123,10 @@ const Category = () => {
                 txtTitle={item.name}
                 txtPrice={`${item.price} تومان`}
                 txtUrl={item.url}
+                onClick={() => history.push(`/products/${item.id}`)}
+                addCart={() =>
+                  localStorage.setItem("carts", JSON.stringify(item))
+                }
               />
             </Grid>
           ))}

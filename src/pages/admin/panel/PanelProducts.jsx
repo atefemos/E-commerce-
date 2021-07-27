@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import Container from "@material-ui/core/Container";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -23,48 +23,46 @@ import {
 import AddEditModal from "../../../components/AddEditModal";
 import { openModal } from "../../../store/actions/modalsAction";
 
+//------styles------
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+  },
+  root: {
+    marginTop: theme.spacing(9),
+    padding: theme.spacing(4),
+    backgroundColor: theme.palette.secondary.light,
+  },
+  img: {
+    height: 30,
+  },
+});
+
+//------styled cell------
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    align: "left",
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
 const PanelProducts = ({ btnTxt, children, ...props }) => {
+  const classes = useStyles();
+
+  //------redux------
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
+  const [editable, setEditable] = useState(false);
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
 
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-      align: "left",
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-
   const rows = products.products;
-  // const rows = [];
-  console.log(rows);
-
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 700,
-    },
-    root: {
-      marginTop: theme.spacing(9),
-      padding: theme.spacing(4),
-      backgroundColor: theme.palette.secondary.light,
-    },
-    img: {
-      height: 30,
-    },
-  });
-  const classes = useStyles();
-
-  const handleEdit = (e) => {
-    dispatch(openModal());
-    dispatch(getAProduct(e.id));
-  };
 
   //------Pagination------
 
@@ -83,7 +81,11 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
   return (
     <Container className={classes.root}>
       <PanelHeader txt={"مدیریت کالاها"}>
-        <AddEditModal />
+        <AddEditModal
+          editable={editable}
+          setEditable={setEditable}
+          selected={products.selectedProduct}
+        />
       </PanelHeader>
       <AdminHeader />
       <div>
@@ -106,7 +108,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                     page * rowsPerPage + rowsPerPage
                   )
                 : rows
-              ).map((row, index) => (
+              ).map((row) => (
                 <TableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">
                     {row.id}
@@ -130,7 +132,9 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                     <EditIcon
                       color="primary"
                       onClick={() => {
-                        handleEdit(row);
+                        setEditable(!editable);
+                        dispatch(getAProduct(row.id));
+                        console.log(editable);
                       }}
                     />
                   </StyledTableCell>

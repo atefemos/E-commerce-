@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -18,13 +19,14 @@ import {
   editAProduct,
   getProducts,
 } from "../../../store/actions/productsActions";
+import Btn from "../../../components/Btn";
+import { getAllData } from "../../../api/productApi";
 // Icons
 import EditIcon from "@material-ui/icons/EditOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 
 //------Set Style------
-
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -61,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//------custom scell------
 const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
@@ -84,20 +87,23 @@ const PanelSuppply = () => {
   //------Redux------
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
+
   //------Style------
   const classes = useStyles();
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
 
+  //------state------
   const [rows, setRows] = useState([]);
-
-  useEffect(() => async () => {
-    await setRows(products.products);
-  });
-
   const [previous, setPrevious] = useState({});
 
+  //------get data from server and set them to rows------
+  useEffect(() => {
+    (async () => {
+      const res = await getAllData();
+      await setRows(res.data);
+    })();
+  }, []);
+
+  //------toggle row to editable or read only------
   const onToggleEditMode = (id) => {
     setRows((state) => {
       return rows.map((row) => {
@@ -109,6 +115,7 @@ const PanelSuppply = () => {
     });
   };
 
+  //------to get new data------
   const onChange = (e, row) => {
     if (!previous[row.id]) {
       setPrevious((state) => ({ ...state, [row.id]: row }));
@@ -124,6 +131,7 @@ const PanelSuppply = () => {
     });
     setRows(newRows);
   };
+
   const onRevert = (id) => {
     const newRows = rows.map((row) => {
       if (row.id === id) {
@@ -156,9 +164,7 @@ const PanelSuppply = () => {
   return (
     <Container className={classes.root}>
       <PanelHeader txt={"مدیریت موجودی و قیمت ها"} btnTxt={"ذخیره"}>
-        {/* <p>آیا از ویرایش محصول مورد نظر اطمینان دارید؟</p>
-        <Btn text={"بله"} onClick={() => dispatch(editAProduct())} />
-        <Btn text={"خیر"} /> */}
+        <Btn text={"ذخیره"} />
       </PanelHeader>
       <AdminHeader />
       <TableContainer component={Paper}>
