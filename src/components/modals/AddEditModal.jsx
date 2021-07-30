@@ -1,19 +1,15 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addAProduct,
-  editAProduct,
-  selectedProduct,
-} from "../store/actions/productsActions";
-import { MenuItem, TextField } from "@material-ui/core";
-import { handleUploadingImage } from "../utils/uploadImage";
+import { addAProduct, editAProduct } from "../../store/actions/productsActions";
+import { MenuItem, TextField, Typography } from "@material-ui/core";
+import { handleUploadingImage } from "../../utils/uploadImage";
 import FiledInput from "@material-ui/core/FilledInput";
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "../theme/customTheme";
+import { theme } from "../../theme/customTheme";
 import BasicModal from "./BasicModal";
-import Btn from "./Btn";
-import { openModal } from "../store/actions/modalsAction";
+import Btn from "../Btn";
+import { openModal } from "../../store/actions/modalsAction";
 
 //------styles------
 const useStyles = makeStyles({
@@ -89,7 +85,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
   return (
     <BasicModal btnTxt={"افزودن کالا"}>
       <form onSubmit={handleSubmit}>
-        <p>افزودن / ویرایش کالا</p>
+        <Typography variant="body1">افزودن / ویرایش کالا</Typography>
         <TextField
           id="outlined-basic"
           label="نام کالا"

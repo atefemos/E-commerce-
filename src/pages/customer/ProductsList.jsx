@@ -13,6 +13,7 @@ import { getProducts } from "../../store/actions/productsActions";
 import { useHistory } from "react-router-dom";
 import { storeInLocalStorage } from "../../utils/cartLocalStorage";
 
+//------set styles------
 const useStyle = makeStyles({
   paper: {
     backgroundColor: "#e3edf7",
@@ -36,9 +37,12 @@ const useStyle = makeStyles({
 });
 
 const ProductsList = ({ props }) => {
+  const classes = useStyle();
+  const history = useHistory();
+
+  //------redux------
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     dispatch(getProducts());
@@ -49,7 +53,11 @@ const ProductsList = ({ props }) => {
   const showes = products.filter((item) => item.category === "کفش");
   const accessory = products.filter((item) => item.category === "اکسسوری");
 
-  const classes = useStyle();
+  const addCart = (item) => {
+    storeInLocalStorage("carts", `${item.id}`, { item });
+    window.location.reload();
+  };
+
   return (
     <Paper className={classes.paper}>
       <MainHeader />
@@ -66,12 +74,10 @@ const ProductsList = ({ props }) => {
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
-                txtPrice={`${item.price} تومان`}
+                txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
-                addCart={() =>
-                  storeInLocalStorage("carts", `${item.id}`, { item })
-                }
+                addCart={() => addCart(item)}
               />
             </Grid>
           ))}
@@ -90,7 +96,7 @@ const ProductsList = ({ props }) => {
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
-                txtPrice={`${item.price} تومان`}
+                txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
                 addCart={() => {
@@ -114,7 +120,7 @@ const ProductsList = ({ props }) => {
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
-                txtPrice={`${item.price} تومان`}
+                txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
                 addCart={() =>
@@ -138,7 +144,7 @@ const ProductsList = ({ props }) => {
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
-                txtPrice={`${item.price} تومان`}
+                txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
                 addCart={() =>

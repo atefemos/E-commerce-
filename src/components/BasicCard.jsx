@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Btn from "../components/Btn";
 
+//------set style------
 const useStyles = makeStyles({
   root: {
     minWidth: 250,

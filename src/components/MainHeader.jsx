@@ -9,12 +9,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import img from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 
+//------set styles------
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -69,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const badgeContent = localStorage.getItem("carts").length;
-// console.log(badgeContent);
+//------count item in carts------
+const badgeContent = JSON.parse(localStorage.getItem("carts")).length;
 
 const MainHeader = () => {
   const classes = useStyles();
@@ -99,7 +99,7 @@ const MainHeader = () => {
     >
       <MenuItem>
         <IconButton aria-label="show new order" color="inherit" href="/cards">
-          <Badge badgeContent={0} color="secondary">
+          <Badge badgeContent={badgeContent} color="secondary">
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
@@ -148,7 +148,7 @@ const MainHeader = () => {
               color="secondary"
               href="/cards"
             >
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={badgeContent} color="secondary">
                 <ShoppingCartIcon fontSize="large" />
               </Badge>
             </IconButton>

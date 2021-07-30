@@ -15,10 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
-import {
-  editAProduct,
-  getProducts,
-} from "../../../store/actions/productsActions";
 import Btn from "../../../components/Btn";
 import { getAllData } from "../../../api/productApi";
 // Icons

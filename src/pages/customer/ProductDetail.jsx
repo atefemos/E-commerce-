@@ -18,6 +18,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import { theme } from "../../theme/customTheme";
 import { storeInLocalStorage } from "../../utils/cartLocalStorage";
 
+//------set styles------
 const useStyle = makeStyles({
   paper: {
     backgroundColor: "#e3edf7",
@@ -52,6 +53,8 @@ const useStyle = makeStyles({
 const ProductDetail = () => {
   const classes = useStyle();
   const { id } = useParams();
+
+  //------redux------
   const item = useSelector((state) => state.allProducts.selectedProduct);
   const dispatch = useDispatch();
 
@@ -104,7 +107,7 @@ const ProductDetail = () => {
                 <AddIcon fontSize="small" />
               </Button>
               <Typography varient="h3" className={classes.typo}>
-                {item?.price} تومان
+                {Number(item?.price).toLocaleString()} تومان
               </Typography>
             </div>
           </div>

@@ -2,10 +2,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-import Btn from "./Btn";
+import Btn from "../Btn";
 import CancelTwoToneIcon from "@material-ui/icons/CancelTwoTone";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal, openModal } from "../store/actions/modalsAction";
+import { closeModal, openModal } from "../../store/actions/modalsAction";
 
 //------style------
 const useStyles = makeStyles((theme) => ({

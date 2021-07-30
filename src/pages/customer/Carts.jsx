@@ -18,6 +18,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Btn from "../../components/Btn";
 import { useHistory } from "react-router-dom";
 
+//------set styles------
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -49,10 +50,15 @@ const Carts = () => {
 
   useEffect(() => {
     let res = JSON.parse(localStorage.getItem("carts"));
-    console.log(res);
     setData(res);
   }, []);
-  // console.log(data);
+
+  //------make array of prices------
+  const prices = [];
+  data.map((item) => prices.push(+item.item.price));
+
+  //------calculate totel cost------
+  const totalCost = prices.reduce((sum, curr) => sum + curr, 0);
 
   return (
     <Paper>
@@ -77,7 +83,9 @@ const Carts = () => {
                 <TableRow key={item.id}>
                   <StyledTableCell>{item.item.id}</StyledTableCell>
                   <StyledTableCell>{item.item.name}</StyledTableCell>
-                  <StyledTableCell>{item.item.price}</StyledTableCell>
+                  <StyledTableCell>
+                    {Number(item.item.price).toLocaleString()}
+                  </StyledTableCell>
                   <StyledTableCell></StyledTableCell>
                   <StyledTableCell>
                     <DeleteIcon
@@ -96,7 +104,7 @@ const Carts = () => {
           </Table>
         </TableContainer>
         <Typography variant="h3" className={classes.typo}>
-          قیمت کل
+          قیمت کل : {totalCost.toLocaleString()} تومان
         </Typography>
         <Btn
           text="نهایی کردن خرید"

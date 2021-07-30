@@ -20,8 +20,7 @@ import {
   deleteAProduct,
   getAProduct,
 } from "../../../store/actions/productsActions";
-import AddEditModal from "../../../components/AddEditModal";
-import { openModal } from "../../../store/actions/modalsAction";
+import AddEditModal from "../../../components/modals/AddEditModal";
 
 //------styles------
 const useStyles = makeStyles({

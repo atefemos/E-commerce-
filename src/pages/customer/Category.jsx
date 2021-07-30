@@ -121,7 +121,7 @@ const Category = () => {
             <Grid item xs={12} sm={6} md={4} key={item.id}>
               <BasicCard
                 txtTitle={item.name}
-                txtPrice={`${item.price} تومان`}
+                txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
                 addCart={() =>

@@ -12,4 +12,5 @@ export const ActionTypes = {
 
   //for orders
   SET_ORDERS: "SET_ORDERS",
+  SELECTED_ORDER: "SELECTED_ORDER",
 };

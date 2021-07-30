@@ -11,10 +11,12 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import MoreIcon from "@material-ui/icons/More";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getOrders } from "../../../store/actions/ordersAction";
+import { getAnOrder, getOrders } from "../../../store/actions/ordersAction";
+import OrderDetailModal from "../../../components/modals/OrderDetailModal";
+import { getAnorderById } from "../../../api/orderApi";
+import { openModal } from "../../../store/actions/modalsAction";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -148,14 +150,15 @@ export default function PanelOrders() {
   }, []);
 
   const rows = orders.orders;
-  // const rows = [];
 
+  //------sort------
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
+  //------pagination------
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -192,8 +195,11 @@ export default function PanelOrders() {
                     <TableCell align="left">{row.person}</TableCell>
                     <TableCell align="left">{row.totalPrice}</TableCell>
                     <TableCell align="left">{row.orderDate}</TableCell>
-                    <TableCell align="left">
-                      <MoreIcon onClick={() => console.log("click")} />
+                    <TableCell
+                      align="left"
+                      onClick={() => dispatch(getAnOrder(row.id))}
+                    >
+                      <OrderDetailModal selected={orders.order} />
                     </TableCell>
                   </TableRow>
                 );
