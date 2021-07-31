@@ -35,7 +35,7 @@ function getModalStyle() {
   };
 }
 
-const BasicModal = ({ btnTxt, ...props }) => {
+const BasicModal = ({ btnTxt, update, ...props }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -50,6 +50,7 @@ const BasicModal = ({ btnTxt, ...props }) => {
 
   const handleClose = () => {
     dispatch(closeModal());
+    update();
   };
 
   //------children(body)------

@@ -54,7 +54,7 @@ const ProductsList = ({ props }) => {
   const accessory = products.filter((item) => item.category === "اکسسوری");
 
   const addCart = (item) => {
-    storeInLocalStorage("carts", `${item.id}`, { item });
+    storeInLocalStorage("carts", `${item.id}`, { ...item, count: 1 });
     window.location.reload();
   };
 
@@ -100,7 +100,7 @@ const ProductsList = ({ props }) => {
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
                 addCart={() => {
-                  storeInLocalStorage("carts", `${item.id}`, { item });
+                  addCart(item);
                 }}
               />
             </Grid>
@@ -123,9 +123,7 @@ const ProductsList = ({ props }) => {
                 txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
-                addCart={() =>
-                  storeInLocalStorage("carts", `${item.id}`, { item })
-                }
+                addCart={() => addCart(item)}
               />
             </Grid>
           ))}
@@ -147,9 +145,7 @@ const ProductsList = ({ props }) => {
                 txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
-                addCart={() =>
-                  storeInLocalStorage("carts", `${item.id}`, { item })
-                }
+                addCart={() => addCart(item)}
               />
             </Grid>
           ))}

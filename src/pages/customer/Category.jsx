@@ -19,6 +19,7 @@ import { getProducts } from "../../store/actions/productsActions";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import BasicCard from "../../components/BasicCard";
+import { storeInLocalStorage } from "../../utils/cartLocalStorage";
 
 const drawerWidth = 240;
 
@@ -77,6 +78,11 @@ const Category = () => {
     );
   };
 
+  const addCart = (item) => {
+    storeInLocalStorage("carts", `${item.id}`, { ...item, count: 1 });
+    window.location.reload();
+  };
+
   return (
     <Paper className={classes.root}>
       <CssBaseline />
@@ -124,9 +130,7 @@ const Category = () => {
                 txtPrice={`${Number(item.price).toLocaleString()} تومان`}
                 txtUrl={item.url}
                 onClick={() => history.push(`/products/${item.id}`)}
-                addCart={() =>
-                  localStorage.setItem("carts", JSON.stringify(item))
-                }
+                addCart={() => addCart(item)}
               />
             </Grid>
           ))}

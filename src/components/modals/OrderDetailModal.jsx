@@ -14,7 +14,7 @@ import { getAnOrder } from "../../store/actions/ordersAction";
 import Btn from "../Btn";
 import BasicModal from "./BasicModal";
 
-const OrderDetailModal = ({ selected, ...props }) => {
+const OrderDetailModal = ({ ...props }) => {
   const [select, setSelect] = useState(null);
 
   //   //------redux------
@@ -22,14 +22,11 @@ const OrderDetailModal = ({ selected, ...props }) => {
   const dispatch = useDispatch();
 
   //   const orders = products.orders;
-  // useEffect(
-  //   () => async () => {
-  //     await dispatch(getAnOrder(1));
-  //   },
-  //   []
-  // );
+  // useEffect(() => {
+  //   setSelect(selected);
+  // });
 
-  console.log(select);
+  // console.log(selected);
   //------handle functions------
   const handleDeliver = () => {
     dispatch(closeModal());
@@ -38,7 +35,7 @@ const OrderDetailModal = ({ selected, ...props }) => {
   return (
     <BasicModal btnTxt={"بررسی سفارش"}>
       <Typography variant="body1">نمایش سفارش</Typography>
-      <Typography variant="body1">نام مشتری : {selected?.person}</Typography>
+      <Typography variant="body1">نام مشتری : </Typography>
       <Typography variant="body1">آدرس : </Typography>
       <Typography variant="body1">تلفن : </Typography>
       <Typography variant="body1">زمان تحویل : </Typography>
@@ -52,7 +49,7 @@ const OrderDetailModal = ({ selected, ...props }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableCell>{select}</TableCell>
+          <TableCell></TableCell>
         </TableBody>
       </Table>
       <Btn text={"تحویل شد"} onClick={handleDeliver} />

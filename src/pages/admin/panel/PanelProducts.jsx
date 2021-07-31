@@ -82,7 +82,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
       <PanelHeader txt={"مدیریت کالاها"}>
         <AddEditModal
           editable={editable}
-          setEditable={setEditable}
+          update={() => setEditable(false)}
           selected={products.selectedProduct}
         />
       </PanelHeader>
@@ -133,7 +133,6 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
                       onClick={() => {
                         setEditable(!editable);
                         dispatch(getAProduct(row.id));
-                        console.log(editable);
                       }}
                     />
                   </StyledTableCell>

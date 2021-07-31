@@ -62,7 +62,12 @@ const ProductDetail = () => {
     dispatch(getAProduct(id));
   }, []);
 
-  const [count, setCount] = useState(null);
+  const [count, setCount] = useState(1);
+
+  const addCart = (item) => {
+    storeInLocalStorage("carts", `${item.id}`, { ...item, count: 1 });
+    window.location.reload();
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -73,6 +78,7 @@ const ProductDetail = () => {
             <CardMedia
               image={item?.url}
               className={classes.image}
+              component="img"
               title="image of a product"
             />
           </div>
@@ -115,7 +121,7 @@ const ProductDetail = () => {
         <Btn
           text="افزودن به سبد خرید"
           color={"primary"}
-          onClick={() => storeInLocalStorage("carts", `${item.id}`, { item })}
+          onClick={() => addCart(item)}
         />
       </CardActionArea>
     </Paper>

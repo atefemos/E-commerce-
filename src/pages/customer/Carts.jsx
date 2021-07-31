@@ -55,7 +55,7 @@ const Carts = () => {
 
   //------make array of prices------
   const prices = [];
-  data.map((item) => prices.push(+item.item.price));
+  data && data.map((item) => prices.push(+item.price * item.count));
 
   //------calculate totel cost------
   const totalCost = prices.reduce((sum, curr) => sum + curr, 0);
@@ -79,27 +79,28 @@ const Carts = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((item, index) => (
-                <TableRow key={item.id}>
-                  <StyledTableCell>{item.item.id}</StyledTableCell>
-                  <StyledTableCell>{item.item.name}</StyledTableCell>
-                  <StyledTableCell>
-                    {Number(item.item.price).toLocaleString()}
-                  </StyledTableCell>
-                  <StyledTableCell></StyledTableCell>
-                  <StyledTableCell>
-                    <DeleteIcon
-                      color="error"
-                      onClick={() => {
-                        data.splice(item.index, 1);
-                        localStorage.setItem("carts", JSON.stringify(data));
-                        console.log(data);
-                        window.location.reload();
-                      }}
-                    />
-                  </StyledTableCell>
-                </TableRow>
-              ))}
+              {data &&
+                data.map((item, index) => (
+                  <TableRow key={item.id}>
+                    <StyledTableCell>{index + 1}</StyledTableCell>
+                    <StyledTableCell>{item.name}</StyledTableCell>
+                    <StyledTableCell>
+                      {Number(item.price).toLocaleString()}
+                    </StyledTableCell>
+                    <StyledTableCell>{item.count}</StyledTableCell>
+                    <StyledTableCell>
+                      <DeleteIcon
+                        color="error"
+                        onClick={() => {
+                          data.splice(index, 1);
+                          localStorage.setItem("carts", JSON.stringify(data));
+                          console.log(data);
+                          window.location.reload();
+                        }}
+                      />
+                    </StyledTableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

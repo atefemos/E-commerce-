@@ -70,7 +70,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //------count item in carts------
-const badgeContent = JSON.parse(localStorage.getItem("carts")).length;
+const badgeContent = JSON.parse(localStorage.getItem("carts"))
+  ? JSON.parse(localStorage.getItem("carts")).length
+  : 0;
 
 const MainHeader = () => {
   const classes = useStyles();

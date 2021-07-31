@@ -1,7 +1,12 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAProduct, editAProduct } from "../../store/actions/productsActions";
+import {
+  addAProduct,
+  editAProduct,
+  getAProduct,
+  selectedProduct,
+} from "../../store/actions/productsActions";
 import { MenuItem, TextField, Typography } from "@material-ui/core";
 import { handleUploadingImage } from "../../utils/uploadImage";
 import FiledInput from "@material-ui/core/FilledInput";
@@ -10,6 +15,8 @@ import { theme } from "../../theme/customTheme";
 import BasicModal from "./BasicModal";
 import Btn from "../Btn";
 import { openModal } from "../../store/actions/modalsAction";
+import { Sync } from "@material-ui/icons";
+import { getADataById } from "../../api/productApi";
 
 //------styles------
 const useStyles = makeStyles({
@@ -18,26 +25,28 @@ const useStyles = makeStyles({
   },
 });
 
-const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
+const AddEditModal = ({ editable, update, selected, ...props }) => {
   const classes = useStyles();
-
-  useEffect(() => async () => {
-    await setSelect(selected);
-  });
 
   //------redux------
   const products = useSelector((state) => state.allProducts);
   const dispatch = useDispatch();
 
   //------states------
-  const [select, setSelect] = useState(null);
-  const [state, setState] = useState(true ? selected : {});
+  const [state, setState] = useState(null);
   const [image, setImage] = useState("");
 
   const categories = ["پوشاک", "کیف", "کفش", "اکسسوری"];
   const subCats = ["زنانه", "مردانه"];
 
   const rows = products.products;
+
+  useEffect(() => {
+    setState(editable && selected);
+  });
+
+  console.log(selected);
+  console.log(editable);
 
   //------handle functions------
   const handleChange = (e) => {
@@ -50,7 +59,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
     {
       editable
         ? dispatch(
-            editAProduct(selected?.id, {
+            editAProduct(state.id, {
               ...state,
               id: id,
               price: "0",
@@ -68,7 +77,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
             })
           );
     }
-    setEditable(false);
+    update();
   };
 
   // dispatch(getAProduct(e.id));
@@ -83,7 +92,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
   };
 
   return (
-    <BasicModal btnTxt={"افزودن کالا"}>
+    <BasicModal btnTxt={"افزودن کالا"} update={update}>
       <form onSubmit={handleSubmit}>
         <Typography variant="body1">افزودن / ویرایش کالا</Typography>
         <TextField
@@ -94,7 +103,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
           required
           focused
           name="name"
-          defaultValue={selected?.name}
+          defaultValue={state?.name}
           className={classes.input}
           onChange={handleChange}
         />
@@ -103,7 +112,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
           select
           fullWidth
           name="category"
-          defaultValue={selected?.category}
+          defaultValue={state?.category}
           label="نوع کالا"
           onChange={handleChange}
           variant="outlined"
@@ -120,7 +129,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
           select
           fullWidth
           name="subCat"
-          defaultValue={select?.subCat}
+          defaultValue={state?.subCat}
           label="مورد استفاده"
           onChange={handleChange}
           variant="outlined"
@@ -146,7 +155,7 @@ const AddEditModal = ({ editable, setEditable, selected, ...props }) => {
           multiline
           fullWidth
           name="detail"
-          defaultValue={selected?.detail}
+          defaultValue={state?.detail}
           onChange={handleChange}
           className={classes.input}
           placeholder="توضیحات"

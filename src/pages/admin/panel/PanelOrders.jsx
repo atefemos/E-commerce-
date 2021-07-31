@@ -1,5 +1,10 @@
-import { Container, makeStyles, withStyles } from "@material-ui/core";
-import React from "react";
+import {
+  Container,
+  makeStyles,
+  RadioGroup,
+  withStyles,
+} from "@material-ui/core";
+import React, { useState } from "react";
 import AdminHeader from "../../../components/AdminHeader";
 import PanelHeader from "../../../components/PanelHeader";
 import Table from "@material-ui/core/Table";
@@ -15,8 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAnOrder, getOrders } from "../../../store/actions/ordersAction";
 import OrderDetailModal from "../../../components/modals/OrderDetailModal";
-import { getAnorderById } from "../../../api/orderApi";
-import { openModal } from "../../../store/actions/modalsAction";
+import Radio from "@material-ui/core/Radio";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { getAllOrders } from "../../../api/orderApi";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -93,6 +99,7 @@ function EnhancedTableHead(props) {
   );
 }
 
+//------set styles------
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -136,20 +143,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PanelOrders() {
+const PanelOrders = () => {
   const classes = useStyles();
+
+  const [rows, setRows] = useState([]);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const orders = useSelector((state) => state.allOrders);
+  const orders = useSelector((state) => state.allOrders.orders);
+  // const ordery = useSelector((state) => state.allOrders.order);
   const dispatch = useDispatch();
+
+  // console.log(ordery);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getAllOrders();
+      await setRows(res.data);
+    })();
+  }, []);
 
   useEffect(() => {
     dispatch(getOrders());
   }, []);
 
-  const rows = orders.orders;
+  const deliveredOrders = orders.filter((item) => item.status === "delivered");
+  const waitingOrders = orders.filter((item) => item.status === "waiting");
+
+  const handleChange = (e) => {
+    e.target.value === "waiting"
+      ? setRows(waitingOrders)
+      : setRows(deliveredOrders);
+  };
 
   //------sort------
   const handleRequestSort = (event, property) => {
@@ -171,7 +197,27 @@ export default function PanelOrders() {
   return (
     <Container className={classes.root}>
       <AdminHeader />
-      <PanelHeader txt={"مدیریت سفارش ها"}></PanelHeader>
+      <PanelHeader txt={"مدیریت سفارش ها"}>
+        <RadioGroup
+          row
+          aria-label="position"
+          name="position"
+          onChange={handleChange}
+        >
+          <FormControlLabel
+            value="delivered"
+            control={<Radio color="primary" />}
+            label="سفارش های تحویل شده"
+            labelPlacement="start"
+          />
+          <FormControlLabel
+            value="waiting"
+            control={<Radio color="primary" />}
+            label="سفارش های در انتطار ارسال "
+            labelPlacement="start"
+          />
+        </RadioGroup>
+      </PanelHeader>
       <TableContainer component={Paper}>
         <Table
           className={classes.table}
@@ -188,18 +234,19 @@ export default function PanelOrders() {
           <TableBody>
             {stableSort(rows, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
                   <TableRow hover key={row.id}>
-                    <TableCell align="left">{row.id}</TableCell>
+                    <TableCell align="left">{index + 1}</TableCell>
                     <TableCell align="left">{row.person}</TableCell>
-                    <TableCell align="left">{row.totalPrice}</TableCell>
+                    <TableCell align="left">
+                      {Number(row.totalPrice).toLocaleString()}
+                    </TableCell>
                     <TableCell align="left">{row.orderDate}</TableCell>
-                    <TableCell
-                      align="left"
-                      onClick={() => dispatch(getAnOrder(row.id))}
-                    >
-                      <OrderDetailModal selected={orders.order} />
+                    <TableCell align="left">
+                      <div onClick={() => dispatch(getAnOrder(row.id))}>
+                        <OrderDetailModal />
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
@@ -218,4 +265,6 @@ export default function PanelOrders() {
       />
     </Container>
   );
-}
+};
+
+export default PanelOrders;
