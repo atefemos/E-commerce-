@@ -15,7 +15,7 @@ export const getAllOrders = async () => {
 };
 
 //------get a data from json------
-export const getAnorderById = async (id) => {
+export const getAnOrderById = async (id) => {
   let res = await axios({
     method: "get",
     url: `http://localhost:5000/orders/${id}`,
@@ -34,5 +34,17 @@ export const addOrder = async (order) => {
     data: JSON.stringify(order),
   }).catch((err) => toast.error("خطایی رخ داده است!"));
   res && toast.success("سفارش شما با موفقیت ثبت شد!");
+  return res;
+};
+
+//------put an edited order to json------
+export const editAnOrderById = async (id, order) => {
+  let res = await axios({
+    method: "put",
+    url: `http://localhost:5000/orders/${id}`,
+    headers: { "content-type": "application/json" },
+    data: JSON.stringify(order),
+  }).catch((err) => toast.error("خطایی رخ داده است!"));
+  res && toast.success("مشحصات کالا به روز شد");
   return res;
 };

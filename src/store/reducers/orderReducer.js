@@ -13,6 +13,8 @@ export const orderReducer = (state = initialState, { type, payload }) => {
       return { ...state, order: payload };
     case ActionTypes.ADDED_ORDER:
       return { ...state, orders: [...state.orders, payload] };
+    case ActionTypes.EDITED_ORDER:
+      return { ...state, orders: { ...state.order, payload } };
     default:
       return state;
   }

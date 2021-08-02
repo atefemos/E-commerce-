@@ -1,9 +1,8 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { theme } from "../theme/customTheme";
-import AddModal from "./modals/AddModal";
 
-const PanelHeader = ({ txt }) => {
+const PanelHeader = ({ txt, children }) => {
   const useStyle = makeStyles({
     text: {
       padding: theme.spacing(3),
@@ -20,9 +19,7 @@ const PanelHeader = ({ txt }) => {
       <Box className={classes.text}>
         <Typography variant="h3">{txt}</Typography>
       </Box>
-      <Box>
-        <AddModal />
-      </Box>
+      <Box>{children}</Box>
     </Box>
   );
 };

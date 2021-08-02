@@ -20,7 +20,7 @@ import {
   deleteAProduct,
   getAProduct,
 } from "../../../store/actions/productsActions";
-import AddEditModal from "../../../components/modals/EditModal";
+import AddModal from "../../../components/modals/AddModal";
 
 //------styles------
 const useStyles = makeStyles({
@@ -79,7 +79,9 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
 
   return (
     <Container className={classes.root}>
-      <PanelHeader txt={"مدیریت کالاها"} />
+      <PanelHeader txt={"مدیریت کالاها"}>
+        <AddModal />
+      </PanelHeader>
       <AdminHeader />
       <div>
         <TableContainer component={Paper}>

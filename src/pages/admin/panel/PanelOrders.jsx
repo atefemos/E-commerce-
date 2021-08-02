@@ -164,6 +164,7 @@ const PanelOrders = () => {
   useEffect(() => {
     dispatch(getOrders());
   }, []);
+  console.log(rows);
 
   const totalCost = JSON.parse(localStorage.getItem("totalCost"));
 

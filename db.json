@@ -153,23 +153,6 @@
       ],
       "address": "سیدخندان",
       "phone": "۰۹۱۲۰۰۵۲۰۰۰",
-      "status": "waiting"
-    },
-    {
-      "id": "3",
-      "fName": "نیما",
-      "lName": "قاسمی",
-      "orderDate": "۱۴۰۰/۰۵/۰۲",
-      "deliveryDate": "۱۴۰۰/۰۵/۰۴",
-      "carts": [
-        {
-          "name": "DAVID JONES",
-          "price": "800000",
-          "count": 1
-        }
-      ],
-      "address": "شهرک غرب",
-      "phone": "۰۹۱۲۰۶۸۳۰۰۰",
       "status": "delivered"
     },
     {
@@ -321,7 +304,7 @@
       "phone": "09353023001",
       "deliveryDate": "1400/5/6",
       "orderDate": "۱۴۰۰/۵/۱۱",
-      "status": "waiting",
+      "status": "delivered",
       "carts": [
         {
           "id": "1",
@@ -334,63 +317,6 @@
           "supply": "23",
           "count": 1
         },
-        {
-          "id": "1",
-          "name": "Dress Lady Frock ",
-          "price": "500000",
-          "category": "پوشاک",
-          "subCat": "زنانه",
-          "detail": "Lulus Exclusive! Take a jaunt through the gardens with the Lulus French Countryside Blush Floral Print High-Low Dress! Lovely purple and green floral print woven poly sweeps across a surplice bodice framed by cute cap sleeves. Tying waist sash tops a wrapping, high-low skirt. Hidden back zipper.",
-          "url": "https://sc04.alicdn.com/kf/H49e9b52bd92642ca8f928c592c060f541.jpg",
-          "supply": "23",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "fName": "atefe",
-      "lName": "moslemi",
-      "address": "پونک",
-      "phone": "09353023001",
-      "deliveryDate": "1400/5/18",
-      "orderDate": "۱۴۰۰/۵/۱۱",
-      "status": "waiting",
-      "carts": [
-        {
-          "id": "1",
-          "name": "Dress Lady Frock ",
-          "price": "500000",
-          "category": "پوشاک",
-          "subCat": "زنانه",
-          "detail": "Lulus Exclusive! Take a jaunt through the gardens with the Lulus French Countryside Blush Floral Print High-Low Dress! Lovely purple and green floral print woven poly sweeps across a surplice bodice framed by cute cap sleeves. Tying waist sash tops a wrapping, high-low skirt. Hidden back zipper.",
-          "url": "https://sc04.alicdn.com/kf/H49e9b52bd92642ca8f928c592c060f541.jpg",
-          "supply": "23",
-          "count": 1
-        },
-        {
-          "id": "1",
-          "name": "Dress Lady Frock ",
-          "price": "500000",
-          "category": "پوشاک",
-          "subCat": "زنانه",
-          "detail": "Lulus Exclusive! Take a jaunt through the gardens with the Lulus French Countryside Blush Floral Print High-Low Dress! Lovely purple and green floral print woven poly sweeps across a surplice bodice framed by cute cap sleeves. Tying waist sash tops a wrapping, high-low skirt. Hidden back zipper.",
-          "url": "https://sc04.alicdn.com/kf/H49e9b52bd92642ca8f928c592c060f541.jpg",
-          "supply": "23",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "fName": "nima",
-      "lName": "mirazizi",
-      "address": "پونک",
-      "phone": "09353023001",
-      "deliveryDate": "1400/5/7",
-      "orderDate": "۱۴۰۰/۵/۱۱",
-      "status": "waiting",
-      "carts": [
         {
           "id": "1",
           "name": "Dress Lady Frock ",

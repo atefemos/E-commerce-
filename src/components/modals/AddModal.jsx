@@ -17,9 +17,7 @@ const useStyles = makeStyles({
   input: {
     marginTop: theme.spacing(1),
   },
-  root: {
-    padding: theme.spacing(3),
-  },
+
   typo: {
     marginBottom: theme.spacing(3),
   },

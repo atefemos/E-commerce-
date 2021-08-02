@@ -1,4 +1,9 @@
-import { getAllOrders, getAnorderById, addOrder } from "../../api/orderApi";
+import {
+  getAllOrders,
+  addOrder,
+  editAnOrderById,
+  getAnOrderById,
+} from "../../api/orderApi";
 import { ActionTypes } from "../actionTypes";
 import { closeModal } from "./modalsAction";
 
@@ -23,6 +28,13 @@ export const addedOrder = (order) => {
   };
 };
 
+export const editeAnOrder = (order) => {
+  return {
+    type: ActionTypes.EDITED_ORDER,
+    payload: order,
+  };
+};
+
 //Async Actions
 
 export const getOrders = () => async (dispatch, getState) => {
@@ -31,7 +43,7 @@ export const getOrders = () => async (dispatch, getState) => {
 };
 
 export const getAnOrder = (id) => async (dispatch, getState) => {
-  let res = await getAnorderById(id);
+  let res = await getAnOrderById(id);
   dispatch(setAnOrders(res.data));
 };
 
@@ -40,4 +52,10 @@ export const addAnOrder = (order) => async (dispatch, getState) => {
   console.log(res);
   dispatch(addedOrder(res.data));
   dispatch(closeModal());
+};
+
+export const putAnOrder = (id, order) => async (dispatch, getState) => {
+  let res = await editAnOrderById(id, order);
+  console.log(res);
+  dispatch(editeAnOrder(res.data));
 };

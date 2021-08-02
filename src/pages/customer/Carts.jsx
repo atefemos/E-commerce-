@@ -46,6 +46,10 @@ const useStyle = makeStyles({
   table: {
     minWidth: 700,
   },
+  img: {
+    width: 500,
+    margin: "0 auto",
+  },
 });
 
 const Carts = () => {

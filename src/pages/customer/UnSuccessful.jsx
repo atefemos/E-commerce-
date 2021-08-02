@@ -4,7 +4,7 @@ import React from "react";
 import MainHeader from "../../components/MainHeader";
 import { theme } from "../../theme/customTheme";
 import CancelIcon from "@material-ui/icons/Cancel";
-import failed from "../../assets/images/failed.jpg";
+import failed from "../../assets/images/failed.png";
 
 const useStyle = makeStyles({
   root: {

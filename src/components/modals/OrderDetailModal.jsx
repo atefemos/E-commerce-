@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { theme } from "../../theme/customTheme";
 import { useDispatch, useSelector } from "react-redux";
+import { putAnOrder } from "../../store/actions/ordersAction";
 
 const useStyle = makeStyles({
   root: {
@@ -52,9 +53,9 @@ const OrderDetailModal = ({ selected, ...props }) => {
 
   const handleClose = () => {
     setOpen(false);
-    // dispatch(editeAnOrder());
+    dispatch(putAnOrder(selected.id, { ...selected, status: "delivered" }));
+    window.location.reload();
   };
-  console.log(selected.carts);
 
   return (
     <div>
