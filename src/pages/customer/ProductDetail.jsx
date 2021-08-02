@@ -41,12 +41,17 @@ const useStyle = makeStyles({
   },
   typo: {
     margin: theme.spacing(3),
+    marginRight: 0,
   },
   flex: {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
     marginRight: theme.spacing(3),
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
   },
 });
 

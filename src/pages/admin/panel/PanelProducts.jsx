@@ -20,7 +20,7 @@ import {
   deleteAProduct,
   getAProduct,
 } from "../../../store/actions/productsActions";
-import AddEditModal from "../../../components/modals/AddEditModal";
+import AddEditModal from "../../../components/modals/EditModal";
 
 //------styles------
 const useStyles = makeStyles({
@@ -79,13 +79,7 @@ const PanelProducts = ({ btnTxt, children, ...props }) => {
 
   return (
     <Container className={classes.root}>
-      <PanelHeader txt={"مدیریت کالاها"}>
-        <AddEditModal
-          editable={editable}
-          update={() => setEditable(false)}
-          selected={products.selectedProduct}
-        />
-      </PanelHeader>
+      <PanelHeader txt={"مدیریت کالاها"} />
       <AdminHeader />
       <div>
         <TableContainer component={Paper}>

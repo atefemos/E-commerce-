@@ -10,6 +10,9 @@ import NotFound from "./pages/NotFound";
 import LogIn from "./pages/admin/LogIn";
 import { ToastContainer } from "react-toastify";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import Payment from "./pages/customer/Payment";
+import Successful from "./pages/customer/Successful";
+import UnSuccessful from "./pages/customer/UnSuccessful";
 
 //------Lazy Load------
 
@@ -38,6 +41,9 @@ function App() {
                 <Route path="/products/:id" exact component={ProductDetail} />
                 <Route path="/category/:name" exact component={Category} />
                 <Route path="/profile" exact component={Profile} />
+                <Route path="/payment" exact component={Payment} />
+                <Route path="/successful" exact component={Successful} />
+                <Route path="/unsuccessful" exact component={UnSuccessful} />
                 <Route path="/login" exact component={LogIn} />
                 <ProtectedRoute
                   path="/panelproducts"

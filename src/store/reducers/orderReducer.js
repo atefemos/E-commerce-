@@ -11,6 +11,8 @@ export const orderReducer = (state = initialState, { type, payload }) => {
       return { ...state, orders: payload };
     case ActionTypes.SELECTED_ORDER:
       return { ...state, order: payload };
+    case ActionTypes.ADDED_ORDER:
+      return { ...state, orders: [...state.orders, payload] };
     default:
       return state;
   }

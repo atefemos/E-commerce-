@@ -24,3 +24,15 @@ export const getAnorderById = async (id) => {
   res && toast.success("داده ها بارگذاری شد");
   return res;
 };
+
+//------add a new order to json------
+export const addOrder = async (order) => {
+  let res = await axios({
+    method: "post",
+    url: `http://localhost:5000/orders/`,
+    headers: { "content-type": "application/json" },
+    data: JSON.stringify(order),
+  }).catch((err) => toast.error("خطایی رخ داده است!"));
+  res && toast.success("سفارش شما با موفقیت ثبت شد!");
+  return res;
+};

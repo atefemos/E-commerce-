@@ -58,7 +58,7 @@ const headCells = [
     disablePadding: true,
     label: "نام کاربر",
   },
-  { id: "totalPrice", numeric: true, label: "مجموع مبلغ" },
+  { id: "carts", numeric: true, label: "مجموع مبلغ" },
   { id: "orderDate", numeric: true, label: "زمان ثبت سفارش" },
   { id: "more", numeric: true, label: "بررسی" },
 ];
@@ -76,7 +76,7 @@ function EnhancedTableHead(props) {
           <StyledTableCell
             key={headCell.id}
             align={"left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            padding={headCell.disablePadding && "none"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -151,11 +151,8 @@ const PanelOrders = () => {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const orders = useSelector((state) => state.allOrders.orders);
-  // const ordery = useSelector((state) => state.allOrders.order);
+  const orders = useSelector((state) => state.allOrders);
   const dispatch = useDispatch();
-
-  // console.log(ordery);
 
   useEffect(() => {
     (async () => {
@@ -168,8 +165,14 @@ const PanelOrders = () => {
     dispatch(getOrders());
   }, []);
 
-  const deliveredOrders = orders.filter((item) => item.status === "delivered");
-  const waitingOrders = orders.filter((item) => item.status === "waiting");
+  const totalCost = JSON.parse(localStorage.getItem("totalCost"));
+
+  const deliveredOrders = orders.orders.filter(
+    (item) => item.status === "delivered"
+  );
+  const waitingOrders = orders.orders.filter(
+    (item) => item.status === "waiting"
+  );
 
   const handleChange = (e) => {
     e.target.value === "waiting"
@@ -238,14 +241,18 @@ const PanelOrders = () => {
                 return (
                   <TableRow hover key={row.id}>
                     <TableCell align="left">{index + 1}</TableCell>
-                    <TableCell align="left">{row.person}</TableCell>
                     <TableCell align="left">
-                      {Number(row.totalPrice).toLocaleString()}
+                      {row.fName} {row.lName}
+                    </TableCell>
+                    <TableCell align="left">
+                      {Number(
+                        totalCost ? totalCost : row.carts[0].price
+                      ).toLocaleString()}
                     </TableCell>
                     <TableCell align="left">{row.orderDate}</TableCell>
                     <TableCell align="left">
                       <div onClick={() => dispatch(getAnOrder(row.id))}>
-                        <OrderDetailModal />
+                        <OrderDetailModal selected={orders.order} />
                       </div>
                     </TableCell>
                   </TableRow>

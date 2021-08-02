@@ -63,12 +63,10 @@ export const deleteAProduct = (id) => async (dispatch, getState) => {
 
 export const addAProduct = (product) => async (dispatch, getState) => {
   let res = await addAData(product);
-  console.log(res);
   dispatch(addedProduct(res.data));
   dispatch(closeModal());
 };
 export const editAProduct = (id, product) => async (dispatch, getState) => {
   let res = await editADataById(id, product);
-  console.log(res);
   dispatch(editedProduct(res.data));
 };

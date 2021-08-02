@@ -11,7 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import TurnedInIcon from "@material-ui/icons/TurnedIn";
-import ListItemText from "@material-ui/core/ListItemText";
+import MenuIcon from "@material-ui/icons/Menu";
 import MainHeader from "../../components/MainHeader";
 import { Grid, Paper } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,9 +20,11 @@ import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import BasicCard from "../../components/BasicCard";
 import { storeInLocalStorage } from "../../utils/cartLocalStorage";
+import { Link } from "react-router-dom";
+import { ListItemText } from "@material-ui/core";
 
+//------set styles------
 const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -33,12 +35,16 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   drawerPaper: {
     width: drawerWidth,
   },
   drawerContainer: {
     overflow: "auto",
+    marginTop: theme.spacing(3),
   },
   content: {
     flexGrow: 1,
@@ -47,21 +53,32 @@ const useStyles = makeStyles((theme) => ({
   typo: {
     marginBottom: theme.spacing(2),
   },
+  menu: {
+    display: "none",
+    margin: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      display: "block",
+    },
+  },
 }));
 
 const Category = () => {
   const classes = useStyles();
-  const products = useSelector((state) => state.allProducts.products);
-  const dispatch = useDispatch();
   const { name } = useParams();
   const history = useHistory();
+
+  //------redux------
+  const products = useSelector((state) => state.allProducts.products);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
   }, []);
 
+  const [open, setOpen] = useState(false);
+
   const categories = ["پوشاک", "کیف", "کفش", "اکسسوری"];
-  const subCats = ["زنانه", "مردانه"];
+  // const subCats = ["زنانه", "مردانه"];
   const data = products.filter((item) => item.category === name);
 
   const Icon = ({ item }) => {
@@ -106,7 +123,7 @@ const Category = () => {
               </ListItem>
             ))}
           </List>
-          <Divider />
+          {/* <Divider />
           <List>
             {subCats.map((item, index) => (
               <ListItem key={index}>
@@ -114,11 +131,27 @@ const Category = () => {
                 {item}
               </ListItem>
             ))}
-          </List>
+          </List> */}
         </div>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
+        <MenuIcon className={classes.menu} onClick={() => setOpen(!open)} />
+        {open && (
+          <List>
+            {["کیف", "کفش", "پوشاک", "اکسسوری"].map((text, index) => (
+              <ListItem button key={text} className={classes.notDisplay}>
+                <ListItemText
+                  primary={text}
+                  onClick={() => {
+                    history.push(`/category/${text}`);
+                    setOpen(false);
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
         <Typography varient="h3" className={classes.typo}>
           {name}
         </Typography>
