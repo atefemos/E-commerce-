@@ -70,7 +70,7 @@ const ProductDetail = () => {
   const [count, setCount] = useState(1);
 
   const addCart = (item) => {
-    storeInLocalStorage("carts", `${item.id}`, { ...item, count: 1 });
+    storeInLocalStorage("carts", `${item.id}`, { ...item, count });
     window.location.reload();
   };
 

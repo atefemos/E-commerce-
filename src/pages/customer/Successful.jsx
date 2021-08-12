@@ -3,7 +3,7 @@ import React from "react";
 import MainHeader from "../../components/MainHeader";
 import { theme } from "../../theme/customTheme";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import success from "../../assets/images/success.svg";
+import success from "../../assets/images/success.png";
 
 const useStyle = makeStyles({
   root: {
